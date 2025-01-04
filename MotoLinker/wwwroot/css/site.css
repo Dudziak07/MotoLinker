@@ -1,0 +1,17 @@
+.container {
+    max-width: 1200px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.search-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.promoted-section .card {
+    margin-bottom: 20px;
+}

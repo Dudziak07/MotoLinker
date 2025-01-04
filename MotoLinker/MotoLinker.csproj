@@ -136,6 +136,7 @@
       <DependentUpon>202412141520101_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\Bid.cs" />
     <Compile Include="Models\MyDBContext.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -173,6 +174,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="wwwroot\css\site.css" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
