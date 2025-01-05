@@ -1,7 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MotoLinker.Models
+namespace MotoLinker.Models // Upewnij siê, ¿e przestrzeñ nazw jest poprawna
 {
     public class Announcement
     {
@@ -31,21 +30,11 @@ namespace MotoLinker.Models
 
         [Required]
         [Range(1886, int.MaxValue, ErrorMessage = "Rok produkcji musi byæ pomiêdzy 1886 a {1}.")]
-        public int ProductionYear
-        {
-            get => _productionYear;
-            set
-            {
-                if (value > DateTime.Now.Year)
-                {
-                    throw new ValidationException($"Rok produkcji nie mo¿e byæ wiêkszy ni¿ {DateTime.Now.Year}.");
-                }
-                _productionYear = value;
-            }
-        }
-        private int _productionYear;
+        public int ProductionYear { get; set; }
 
-        // Powi¹zanie og³oszenia z u¿ytkownikiem
-        public Guid UserID { get; set; } // ID u¿ytkownika, który stworzy³ og³oszenie
+        public Guid UserID { get; set; }
+
+        // Formatowanie ID jako 000-000-001
+        public string FormattedId => $"{Id:D9}".Insert(3, "-").Insert(7, "-");
     }
 }

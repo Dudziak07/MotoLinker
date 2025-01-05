@@ -48,12 +48,6 @@ public class AnnouncementController : Controller
     }
 
     // Formularz dodawania og這szenia
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    [HttpPost]
     [HttpPost]
     public IActionResult Create(Announcement announcement)
     {
@@ -62,9 +56,10 @@ public class AnnouncementController : Controller
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null) return RedirectToAction("Login", "Auth");
 
-            // Dodanie og這szenia do listy (na razie bez bazy danych)
+            // Generowanie nowego ID
             announcement.Id = _announcements.Count + 1;
-            announcement.UserID = Guid.Parse(userId); // Powi頊anie og這szenia z zalogowanym u篡tkownikiem
+
+            announcement.UserID = Guid.Parse(userId); // Powi頊anie og這szenia z u篡tkownikiem
             _announcements.Add(announcement);
 
             TempData["Message"] = "Og這szenie zosta這 dodane.";
