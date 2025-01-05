@@ -83,4 +83,47 @@ public class AnnouncementController : Controller
         // Przeka¿ og³oszenie do widoku
         return View(announcement);
     }
+
+    // GET: Announcement/Edit/5
+    public IActionResult Edit(int id)
+    {
+        var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+        if (announcement == null)
+        {
+            return NotFound();
+        }
+        return View(announcement);
+    }
+
+    // POST: Announcement/Edit/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, Announcement updatedAnnouncement)
+    {
+        if (id != updatedAnnouncement.Id)
+        {
+            return BadRequest();
+        }
+
+        if (ModelState.IsValid)
+        {
+            var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+            if (announcement == null)
+            {
+                return NotFound();
+            }
+
+            // Aktualizacja w³aœciwoœci og³oszenia
+            announcement.Title = updatedAnnouncement.Title;
+            announcement.Description = updatedAnnouncement.Description;
+            announcement.Price = updatedAnnouncement.Price;
+            announcement.Location = updatedAnnouncement.Location;
+            announcement.Brand = updatedAnnouncement.Brand;
+            announcement.Model = updatedAnnouncement.Model;
+            announcement.ProductionYear = updatedAnnouncement.ProductionYear;
+
+            return RedirectToAction(nameof(List));
+        }
+        return View(updatedAnnouncement);
+    }
 }

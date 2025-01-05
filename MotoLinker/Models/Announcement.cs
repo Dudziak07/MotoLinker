@@ -16,7 +16,7 @@ namespace MotoLinker.Models
 
         [Required]
         [DataType(DataType.Currency)]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
 
         [Required]
         public string Location { get; set; }

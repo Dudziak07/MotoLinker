@@ -13,7 +13,7 @@
             <th>Marka</th>
             <th>Model</th>
             <th>Rok produkcji</th>
-            <th>Akcja</th>
+            <th>Akcje</th>
         </tr>
     </thead>
     <tbody>
@@ -29,9 +29,8 @@
                 <td>@announcement.Model</td>
                 <td>@announcement.ProductionYear</td>
                 <td>
-                    <a href="@Url.Action("Details", "Announcement", new { id = announcement.Id })" class="btn btn-primary">
-                        Szczegó³y
-                    </a>
+                    <a asp-action="Details" asp-route-id="@announcement.Id" class="btn btn-info">Szczegó³y</a>
+                    <a asp-action="Edit" asp-route-id="@announcement.Id" class="btn btn-warning">Edytuj</a>
                 </td>
             </tr>
         }
