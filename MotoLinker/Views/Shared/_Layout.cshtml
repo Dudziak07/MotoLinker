@@ -31,10 +31,12 @@
                         @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null)
                         {
                             <li class="nav-item">
-                                <span class="navbar-text me-2">Zalogowany jako: @HttpContextAccessor.HttpContext.Session.GetString("Username")</span>
+                                <span class="navbar-text me-2">
+                                    Zalogowany jako: @HttpContextAccessor.HttpContext.Session.GetString("Username")
+                                </span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-danger text-white" asp-controller="Auth" asp-action="Logout">Wyloguj się</a>
+                                <a class="nav-link btn btn-danger text-white" asp-controller="Auth" asp-action="Logout" asp-route-returnUrl="@Context.Request.Path">Wyloguj się</a>
                             </li>
                         }
                         else

@@ -27,6 +27,7 @@ namespace MotoLinker.Controllers
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
+                HttpContext.Session.SetString("Username", user.Username); // Dodanie nazwy użytkownika do sesji
                 return RedirectToAction("List", "Announcement");
             }
 
@@ -35,10 +36,10 @@ namespace MotoLinker.Controllers
         }
 
         // Wylogowanie
-        public IActionResult Logout()
+        public IActionResult Logout(string returnUrl = "/")
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return Redirect(returnUrl ?? "/");
         }
 
         // Rejestracja
