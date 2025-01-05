@@ -27,6 +27,17 @@ public class AnnouncementController : Controller
             Brand = "Audi",
             Model = "A4",
             ProductionYear = 2018
+        },
+        new Announcement
+        {
+            Id = 3,
+            Title = "Samochód 3",
+            Description = "Opis samochodu 3",
+            Price = 1000,
+            Location = "Raciborz",
+            Brand = "Z³omek",
+            Model = "X1",
+            ProductionYear = 2011
         }
     };
 
@@ -55,6 +66,21 @@ public class AnnouncementController : Controller
             return RedirectToAction("List");
         }
 
+        return View(announcement);
+    }
+
+    public IActionResult Details(int id)
+    {
+        // ZnajdŸ og³oszenie na podstawie ID
+        var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+
+        if (announcement == null)
+        {
+            // Jeœli og³oszenia nie ma, zwróæ stronê 404
+            return NotFound();
+        }
+
+        // Przeka¿ og³oszenie do widoku
         return View(announcement);
     }
 }

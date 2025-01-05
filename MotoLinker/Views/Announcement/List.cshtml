@@ -13,6 +13,7 @@
             <th>Marka</th>
             <th>Model</th>
             <th>Rok produkcji</th>
+            <th>Akcja</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,11 @@
                 <td>@announcement.Brand</td>
                 <td>@announcement.Model</td>
                 <td>@announcement.ProductionYear</td>
+                <td>
+                    <a href="@Url.Action("Details", "Announcement", new { id = announcement.Id })" class="btn btn-primary">
+                        Szczegó³y
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
