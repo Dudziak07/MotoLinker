@@ -16,7 +16,7 @@ namespace MotoLinker.Models
 
         [Required]
         [DataType(DataType.Currency)]
-        public int Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required]
         public string Location { get; set; }
@@ -44,5 +44,8 @@ namespace MotoLinker.Models
             }
         }
         private int _productionYear;
+
+        // Powi¹zanie og³oszenia z u¿ytkownikiem
+        public Guid UserID { get; set; } // ID u¿ytkownika, który stworzy³ og³oszenie
     }
 }

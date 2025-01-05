@@ -54,12 +54,17 @@ public class AnnouncementController : Controller
     }
 
     [HttpPost]
+    [HttpPost]
     public IActionResult Create(Announcement announcement)
     {
         if (ModelState.IsValid)
         {
+            var userId = HttpContext.Session.GetString("UserId");
+            if (userId == null) return RedirectToAction("Login", "Auth");
+
             // Dodanie og³oszenia do listy (na razie bez bazy danych)
             announcement.Id = _announcements.Count + 1;
+            announcement.UserID = Guid.Parse(userId); // Powi¹zanie og³oszenia z zalogowanym u¿ytkownikiem
             _announcements.Add(announcement);
 
             TempData["Message"] = "Og³oszenie zosta³o dodane.";
@@ -87,11 +92,17 @@ public class AnnouncementController : Controller
     // GET: Announcement/Edit/5
     public IActionResult Edit(int id)
     {
+        var userId = HttpContext.Session.GetString("UserId"); // Pobieranie UserId z sesji
+        if (userId == null) return RedirectToAction("Login", "Auth"); // Jeœli niezalogowany, przekierowanie na login
+
+        var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
         var announcement = _announcements.FirstOrDefault(a => a.Id == id);
-        if (announcement == null)
+
+        if (announcement == null || (announcement.UserID.ToString() != userId && !isAdmin))
         {
-            return NotFound();
+            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
         }
+
         return View(announcement);
     }
 
@@ -100,6 +111,17 @@ public class AnnouncementController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Announcement updatedAnnouncement)
     {
+        var userId = HttpContext.Session.GetString("UserId");
+        if (userId == null) return RedirectToAction("Login", "Auth");
+
+        var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
+        var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+
+        if (announcement == null || (announcement.UserID.ToString() != userId && !isAdmin))
+        {
+            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
+        }
+
         if (id != updatedAnnouncement.Id)
         {
             return BadRequest();
@@ -107,12 +129,6 @@ public class AnnouncementController : Controller
 
         if (ModelState.IsValid)
         {
-            var announcement = _announcements.FirstOrDefault(a => a.Id == id);
-            if (announcement == null)
-            {
-                return NotFound();
-            }
-
             // Aktualizacja w³aœciwoœci og³oszenia
             announcement.Title = updatedAnnouncement.Title;
             announcement.Description = updatedAnnouncement.Description;
@@ -124,6 +140,7 @@ public class AnnouncementController : Controller
 
             return RedirectToAction(nameof(List));
         }
+
         return View(updatedAnnouncement);
     }
 }

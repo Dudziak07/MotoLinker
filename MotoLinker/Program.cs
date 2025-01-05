@@ -1,15 +1,23 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Dodaj us³ugi do kontenera
 builder.Services.AddControllersWithViews();
+
+// Konfiguracja sesji
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Czas trwania sesji
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Konfiguracja potoku HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -18,6 +26,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession(); // U¿ycie sesji musi byæ po UseRouting, ale przed UseEndpoints
 app.UseAuthorization();
 
 app.MapControllerRoute(
