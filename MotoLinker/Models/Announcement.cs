@@ -23,31 +23,26 @@ namespace MotoLinker.Models
 
         public DateTime DateAdded { get; set; } = DateTime.Now;
 
+        [Required]
         public string Brand { get; set; }
 
+        [Required]
         public string Model { get; set; }
 
         [Required]
-        [CustomProductionYearValidation] /// Niestandardowy atrybut
-        public int ProductionYear { get; set; }
-    }
-
-    /// Niestandardowy atrybut walidacji dla roku produkcji.
-    public class CustomProductionYearValidation : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        [Range(1886, int.MaxValue, ErrorMessage = "Rok produkcji musi byæ pomiêdzy 1886 a {1}.")]
+        public int ProductionYear
         {
-            if (value is int year)
+            get => _productionYear;
+            set
             {
-                int currentYear = DateTime.Now.Year;
-
-                if (year < 1886 || year > currentYear)
+                if (value > DateTime.Now.Year)
                 {
-                    return new ValidationResult($"Rok produkcji musi byæ pomiêdzy 1886 a {currentYear}.");
+                    throw new ValidationException($"Rok produkcji nie mo¿e byæ wiêkszy ni¿ {DateTime.Now.Year}.");
                 }
+                _productionYear = value;
             }
-
-            return ValidationResult.Success;
         }
+        private int _productionYear;
     }
 }

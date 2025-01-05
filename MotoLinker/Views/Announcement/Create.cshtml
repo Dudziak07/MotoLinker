@@ -1,0 +1,46 @@
+@model MotoLinker.Models.Announcement
+
+@{
+    ViewData["Title"] = "Dodaj og³oszenie";
+}
+
+<h1>Dodaj og³oszenie</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="Title" class="form-label">Tytu³:</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Opis:</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Price" class="form-label">Cena:</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Location" class="form-label">Lokalizacja:</label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="ProductionYear" class="form-label">Rok produkcji:</label>
+        <input asp-for="ProductionYear" class="form-control" />
+        <span asp-validation-for="ProductionYear" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Brand" class="form-label">Marka:</label>
+        <input asp-for="Brand" class="form-control" />
+        <span asp-validation-for="Brand" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Model" class="form-label">Model:</label>
+        <input asp-for="Model" class="form-control" />
+        <span asp-validation-for="Model" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Dodaj og³oszenie</button>
+</form>
