@@ -40,5 +40,25 @@ namespace MotoLinker.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
+
+        // Rejestracja
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                user.Id = Guid.NewGuid(); // Ustaw unikalne ID
+                _users.Add(user); // Dodaj użytkownika do listy (lub bazy danych)
+                TempData["Message"] = "Rejestracja zakończona sukcesem. Możesz się zalogować.";
+                return RedirectToAction("Login");
+            }
+
+            return View(user);
+        }
     }
 }

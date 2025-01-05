@@ -2,6 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Dodaj us³ugi do kontenera
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 // Konfiguracja sesji
 builder.Services.AddDistributedMemoryCache();
