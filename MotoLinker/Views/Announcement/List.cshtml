@@ -1,17 +1,15 @@
 @model IEnumerable<MotoLinker.Models.Announcement>
 
-@{
-    ViewData["Title"] = "Lista og³oszeñ";
-}
-
 <h1>Lista og³oszeñ</h1>
 
-<table class="table table-bordered">
+<table class="table">
     <thead>
         <tr>
+            <th>#</th>
             <th>Tytu³</th>
             <th>Opis</th>
             <th>Cena</th>
+            <th>Lokalizacja</th>
             <th>Marka</th>
             <th>Model</th>
             <th>Rok produkcji</th>
@@ -21,9 +19,11 @@
         @foreach (var announcement in Model)
         {
             <tr>
+                <td>@announcement.Id</td>
                 <td>@announcement.Title</td>
                 <td>@announcement.Description</td>
                 <td>@announcement.Price PLN</td>
+                <td>@announcement.Location</td>
                 <td>@announcement.Brand</td>
                 <td>@announcement.Model</td>
                 <td>@announcement.ProductionYear</td>

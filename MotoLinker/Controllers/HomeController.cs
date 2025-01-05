@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MotoLinker.Models;
 
 namespace MotoLinker.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            return View();
-        }
+            // Przykładowe dane ogłoszeń
+            var latestAnnouncements = new List<Announcement>
+            {
+                new Announcement { Id = 1, Title = "Samochód 1", Description = "Opis 1"},
+                new Announcement { Id = 2, Title = "Samochód 2", Description = "Opis 2"},
+                new Announcement { Id = 3, Title = "Samochód 3", Description = "Opis 3"}
+            };
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View(new HomeIndexViewModel
+            {
+                LatestAnnouncements = latestAnnouncements
+            });
         }
     }
 }

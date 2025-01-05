@@ -1,6 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Strona główna";
-}
+﻿@model MotoLinker.Models.HomeIndexViewModel
 
 <h1>Witamy na MotoLinker</h1>
 <p>Znajdź wymarzony pojazd w zasięgu ręki.</p>
+
+<h2>Najnowsze ogłoszenia</h2>
+<div class="row">
+    @foreach (var announcement in Model.LatestAnnouncements)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <img src="@announcement" class="card-img-top" alt="@announcement.Title" />
+                <div class="card-body">
+                    <h5 class="card-title">@announcement.Title</h5>
+                    <p class="card-text">@announcement.Description</p>
+                    <a href="@Url.Action("Details", "Announcement", new { id = announcement.Id })" class="btn btn-primary">Szczegóły</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
