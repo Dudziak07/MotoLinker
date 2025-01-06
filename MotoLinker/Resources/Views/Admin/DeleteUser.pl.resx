@@ -117,55 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Actions" xml:space="preserve">
-    <value>Akcje</value>
-  </data>
-  <data name="AdminPanelTitle" xml:space="preserve">
-    <value>Panel administratora</value>
-  </data>
-  <data name="Back" xml:space="preserve">
-    <value>Wróć</value>
-  </data>
-  <data name="BackToDashboard" xml:space="preserve">
-    <value>Wróć do panelu</value>
-  </data>
-  <data name="CannotModifyUserID1" xml:space="preserve">
-    <value>Nie można zmodyfikować konta ID 1</value>
-  </data>
-  <data name="ConfirmDeleteUser" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć użytkownika?</value>
-  </data>
   <data name="Delete" xml:space="preserve">
-    <value> Usuń</value>
+    <value>Usuń</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edytuj</value>
+  <data name="DeleteUserQuestion" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć użytkownika</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value> Adres e-mail</value>
-  </data>
-  <data name="IsAdmin" xml:space="preserve">
-    <value>Administrator</value>
-  </data>
-  <data name="MakeAdmin" xml:space="preserve">
-    <value>Nadaj admina</value>
-  </data>
-  <data name="ManageUsers" xml:space="preserve">
-    <value>Zarządzanie użytkownikami</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>Nie</value>
-  </data>
-  <data name="RemoveAdmin" xml:space="preserve">
-    <value>Usuń admina</value>
-  </data>
-  <data name="UserID" xml:space="preserve">
-    <value>ID użytkownika</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Nazwa użytkownika</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Tak</value>
+  <data name="DeleteUserTitle" xml:space="preserve">
+    <value>Usuń użytkownika</value>
   </data>
 </root>

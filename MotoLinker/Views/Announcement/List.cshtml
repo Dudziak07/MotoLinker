@@ -1,6 +1,9 @@
 @model IEnumerable<MotoLinker.Models.Announcement>
 
-<h1>Lista og³oszeñ</h1>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["AdListTitle"]</h1>
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
@@ -13,13 +16,13 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Tytu³</th>
-            <th>Cena</th>
-            <th>Lokalizacja</th>
-            <th>Marka</th>
-            <th>Model</th>
-            <th>Data dodania</th>
-            <th>Akcje</th>
+            <th>@Localizer["Title"]</th>
+            <th>@Localizer["Price"]</th>
+            <th>@Localizer["Location"]</th>
+            <th>@Localizer["Brand"]</th>
+            <th>@Localizer["Model"]</th>
+            <th>@Localizer["DateAdded"]</th>
+            <th>@Localizer["Actions"]</th>
         </tr>
     </thead>
     <tbody>
@@ -34,14 +37,14 @@
                 <td>@announcement.Model</td>
                 <td>@announcement.DateAdded.ToString("yyy-MM-dd HH:mm")</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-info">Szczegó³y</a>
+                    <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-info">@Localizer["Details"]</a>
                     @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null &&
                         (HttpContextAccessor.HttpContext.Session.GetString("UserId") == announcement.UserId.ToString() ||
                          HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True"))
                     {
-                        <a asp-action="Edit" asp-route-id="@announcement.AnnouncementId" class="btn btn-warning">Edytuj</a>
-                        <form asp-action="Delete" asp-route-id="@announcement.AnnouncementId" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno chcesz usun¹æ to og³oszenie?');">
-                            <button type="submit" class="btn btn-danger">Usuñ</button>
+                        <a asp-action="Edit" asp-route-id="@announcement.AnnouncementId" class="btn btn-warning">@Localizer["Edit"]</a>
+                        <form asp-action="Delete" asp-route-id="@announcement.AnnouncementId" method="post" style="display:inline;" onsubmit="return confirm(@Localizer["DeleteConfirm"]);">
+                            <button type="submit" class="btn btn-danger">@Localizer["DeleteAdButton"]</button>
                         </form>
                     }
                 </td>

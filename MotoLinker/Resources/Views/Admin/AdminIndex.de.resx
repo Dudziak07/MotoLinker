@@ -120,19 +120,52 @@
   <data name="Actions" xml:space="preserve">
     <value>Aktionen</value>
   </data>
+  <data name="AdminPanelTitle" xml:space="preserve">
+    <value> Admin-Bereich</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="BackToDashboard" xml:space="preserve">
+    <value>Zurück zum Dashboard</value>
+  </data>
+  <data name="CannotModifyUserID1" xml:space="preserve">
+    <value>Benutzer-ID 1 kann nicht geändert werden</value>
+  </data>
+  <data name="ConfirmDeleteUser" xml:space="preserve">
+    <value>Möchten Sie diesen Benutzer wirklich löschen?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>E-Mail-Adresse</value>
   </data>
   <data name="IsAdmin" xml:space="preserve">
     <value>Administrator</value>
   </data>
+  <data name="MakeAdmin" xml:space="preserve">
+    <value>Zum Administrator machen</value>
+  </data>
   <data name="ManageUsers" xml:space="preserve">
     <value>Benutzer verwalten</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="RemoveAdmin" xml:space="preserve">
+    <value>Administrator entfernen</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>Benutzer-ID</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Benutzername</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
   </data>
 </root>

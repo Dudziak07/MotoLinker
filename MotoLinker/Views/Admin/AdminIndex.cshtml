@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<MotoLinker.Models.User>
 
-<h1>Panel Administratora</h1>
-<p class="text-muted">Zarządzanie użytkownikami</p>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["AdminPanelTitle"]</h1>
+<p class="text-muted">@Localizer["ManageUsers"]</p>
 
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
@@ -20,17 +23,17 @@
                 <td>@user.UserId</td>
                 <td>@user.Username</td>
                 <td>@user.Email</td>
-                <td>@(user.IsAdmin ? "Tak" : "Nie")</td>
+                <td>@(user.IsAdmin ? @Localizer["Yes"] : @Localizer["No"])</td>
                 <td>
-                    <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">Edytuj</a>
+                    <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">@Localizer["Edit"]</a>
                     @if (user.UserId != 1) // Ukryj dodatkowe przyciski dla konta o ID 1
                     {
                         <form asp-action="ToggleAdmin" asp-route-id="@user.UserId" method="post" class="d-inline">
                             <button type="submit" class="btn @(user.IsAdmin ? "btn-danger" : "btn-success") btn-sm">
-                                @(user.IsAdmin ? "Usuń admina" : "Nadaj admina")
+                                @(user.IsAdmin ? @Localizer["RemoveAdmin"] : @Localizer["MakeAdmin"])
                             </button>
                         </form>
-                        <a asp-action="DeleteUser" asp-route-id="@user.UserId" class="btn btn-danger btn-sm">Usuń</a>
+                        <a asp-action="DeleteUser" asp-route-id="@user.UserId" class="btn btn-danger btn-sm">@Localizer["Delete"]</a>
                     }
                 </td>
             </tr>
@@ -38,4 +41,4 @@
     </tbody>
 </table>
 
-<a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Wróć</a>
+<a asp-action="Index" asp-controller="Home" class="btn btn-secondary">@Localizer["Back"]</a>

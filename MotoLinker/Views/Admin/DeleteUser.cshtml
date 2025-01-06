@@ -1,9 +1,12 @@
 ﻿@model MotoLinker.Models.User
 
-<h1>Usuń użytkownika</h1>
-<p>Czy na pewno chcesz usunąć użytkownika <strong>@Model.Username</strong>?</p>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["DeleteUserTitle"]</h1>
+<p>@Localizer["DeleteUserQuestion"]<strong>@Model.Username</strong>?</p>
 
 <form asp-action="DeleteUser" method="post">
-    <button type="submit" class="btn btn-danger">Usuń</button>
-    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+    <button type="submit" class="btn btn-danger">@Localizer["Delete"]</button>
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["Cancel"]</a>
 </form>

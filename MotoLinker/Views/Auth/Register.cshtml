@@ -1,19 +1,22 @@
 ﻿@model MotoLinker.Models.User
 
-<h1>Rejestracja</h1>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["RegisterTitle"]</h1>
 
 <form asp-action="Register" method="post">
     <div class="form-group">
-        <label for="username">Nazwa użytkownika</label>
+        <label for="username">@Localizer["Username"]</label>
         <input type="text" id="username" name="Username" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">@Localizer["Email"]</label>
         <input type="email" id="email" name="Email" class="form-control" required />
     </div>
     <div class="form-group">
-        <label for="password">Hasło</label>
+        <label for="password">@Localizer["Password"]</label>
         <input type="password" id="password" name="Password" class="form-control" required />
     </div>
-    <button type="submit" class="btn btn-primary">Zarejestruj się</button>
+    <button type="submit" class="btn btn-primary">@Localizer["RegisterButton"]</button>
 </form>

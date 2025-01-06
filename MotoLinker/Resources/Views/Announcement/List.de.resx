@@ -118,54 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Actions" xml:space="preserve">
-    <value>Akcje</value>
+    <value>Aktionen</value>
   </data>
-  <data name="AdminPanelTitle" xml:space="preserve">
-    <value>Panel administratora</value>
+  <data name="AddAd" xml:space="preserve">
+    <value>Anzeige hinzufügen</value>
   </data>
-  <data name="Back" xml:space="preserve">
-    <value>Wróć</value>
+  <data name="AdListTitle" xml:space="preserve">
+    <value>Anzeigenliste</value>
   </data>
-  <data name="BackToDashboard" xml:space="preserve">
-    <value>Wróć do panelu</value>
+  <data name="Brand" xml:space="preserve">
+    <value>Marke</value>
   </data>
-  <data name="CannotModifyUserID1" xml:space="preserve">
-    <value>Nie można zmodyfikować konta ID 1</value>
+  <data name="DateAdded" xml:space="preserve">
+    <value>Hinzugefügt am</value>
   </data>
-  <data name="ConfirmDeleteUser" xml:space="preserve">
-    <value>Czy na pewno chcesz usunąć użytkownika?</value>
+  <data name="DeleteAdButton" xml:space="preserve">
+    <value>Löschen</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value> Usuń</value>
+  <data name="DeleteConfirm" xml:space="preserve">
+    <value>Möchten Sie diese Anzeige wirklich löschen?</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edytuj</value>
+  <data name="Details" xml:space="preserve">
+    <value>Einzelheiten</value>
   </data>
-  <data name="Email" xml:space="preserve">
-    <value> Adres e-mail</value>
+  <data name="Location" xml:space="preserve">
+    <value>Standort</value>
   </data>
-  <data name="IsAdmin" xml:space="preserve">
-    <value>Administrator</value>
+  <data name="Model" xml:space="preserve">
+    <value>Modell</value>
   </data>
-  <data name="MakeAdmin" xml:space="preserve">
-    <value>Nadaj admina</value>
+  <data name="NoAdsMessage" xml:space="preserve">
+    <value>Keine Anzeigen</value>
   </data>
-  <data name="ManageUsers" xml:space="preserve">
-    <value>Zarządzanie użytkownikami</value>
+  <data name="Price" xml:space="preserve">
+    <value>Preis</value>
   </data>
-  <data name="No" xml:space="preserve">
-    <value>Nie</value>
-  </data>
-  <data name="RemoveAdmin" xml:space="preserve">
-    <value>Usuń admina</value>
-  </data>
-  <data name="UserID" xml:space="preserve">
-    <value>ID użytkownika</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Nazwa użytkownika</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Tak</value>
+  <data name="Title" xml:space="preserve">
+    <value>Titel</value>
   </data>
 </root>

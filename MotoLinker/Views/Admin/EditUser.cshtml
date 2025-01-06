@@ -1,23 +1,26 @@
 ﻿@model MotoLinker.Models.User
 
-<h1>Edytuj użytkownika</h1>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["EditUserTitle"]</h1>
 
 <form asp-action="EditUser" method="post">
     <div class="form-group">
-        <label asp-for="Username"></label>
+        <label asp-for="Username">@Localizer["Username"]</label>
         <input asp-for="Username" class="form-control" />
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Email"></label>
+        <label asp-for="Email">@Localizer["Email"]</label>
         <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Password">Nowe hasło</label>
+        <label asp-for="Password">@Localizer["Password"]</label>
         <input asp-for="Password" type="password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Zapisz</button>
-    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+    <a asp-action="Index" class="btn btn-secondary">@Localizer["Cancel"]</a>
 </form>

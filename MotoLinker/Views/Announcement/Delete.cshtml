@@ -1,26 +1,29 @@
 ﻿@page
 @model MotoLinker.Models.Announcement
 
-<h1>Usuń ogłoszenie</h1>
-<p>Czy na pewno chcesz usunąć to ogłoszenie?</p>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<h1>@Localizer["DeleteAdTitle"]</h1>
+<p>@Localizer["DeleteConfirm"]</p>
 
 <div>
     <p>
-        <strong>Tytuł:</strong> @Model.Title
+        <strong>@Localizer["Title"]:</strong> @Model.Title
     </p>
     <p>
-        <strong>Opis:</strong> @Model.Description
+        <strong>@Localizer["Description"]:</strong> @Model.Description
     </p>
     <p>
-        <strong>Cena:</strong> @Model.Price PLN
+        <strong>@Localizer["Price"]:</strong> @Model.Price PLN
     </p>
     <p>
-        <strong>Lokalizacja:</strong> @Model.Location
+        <strong>@Localizer["Location"]:</strong> @Model.Location
     </p>
 </div>
 
 <form asp-action="Delete" method="post">
     <input type="hidden" asp-for="AnnouncementId" />
-    <button type="submit" class="btn btn-danger">Usuń</button>
-    <a asp-action="List" class="btn btn-secondary">Anuluj</a>
+    <button type="submit" class="btn btn-danger">@Localizer["DeleteAdButton"]</button>
+    <a asp-action="List" class="btn btn-secondary">@Localizer["Cancel"]</a>
 </form>
