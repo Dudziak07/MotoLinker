@@ -34,7 +34,7 @@
                         @if (HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True")
                         {
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-warning text-light me-2" asp-controller="Admin" asp-action="Index">Panel administratora</a>
+                                <a class="nav-link btn btn-outline-warning text-light me-2" asp-controller="Admin" asp-action="Index">@Localizer["AdminPanelTitle"]</a>
                             </li>
                         }
                         @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null)
