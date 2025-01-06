@@ -8,9 +8,9 @@ namespace MotoLinker.Controllers
     {
         private static List<User> _users = new List<User>
         {
-            new User { UserId = 1, Username = "admin", Password = "admin", IsAdmin = true },
-            new User { UserId = 2, Username = "user1", Password = "user1", IsAdmin = false },
-            new User { UserId = 3, Username = "user2", Password = "user2", IsAdmin = false }
+            new User { Username = "admin", Password = "admin", IsAdmin = true },
+            new User { Username = "user1", Password = "user1", IsAdmin = false },
+            new User { Username = "user2", Password = "user2", IsAdmin = false }
         };
 
         public IActionResult Login()

@@ -4,7 +4,7 @@ namespace MotoLinker.Models
 {
     public class User
     {
-        private static int NextUserId = 3; // Zmienna statyczna do generowania kolejnych ID
+        private static int NextUserId = 1; // Zmienna statyczna do generowania kolejnych ID
 
         public int UserId { get; set; } // ID jako liczba całkowita
         public string Username { get; set; }
