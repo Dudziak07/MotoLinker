@@ -168,4 +168,27 @@ public class AnnouncementController : Controller
 
         return View(updatedAnnouncement);
     }
+
+    // POST: Announcement/Delete/5
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        var userId = HttpContext.Session.GetString("UserId");
+        if (userId == null) return RedirectToAction("Login", "Auth");
+
+        var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
+        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
+
+        if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
+        {
+            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
+        }
+
+        // Usuñ og³oszenie z listy
+        _announcements.Remove(announcement);
+
+        TempData["Message"] = "Og³oszenie zosta³o usuniête.";
+        return RedirectToAction("List");
+    }
 }

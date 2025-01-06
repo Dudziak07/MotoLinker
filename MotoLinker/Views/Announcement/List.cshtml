@@ -36,10 +36,13 @@
                 <td>
                     <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-info">Szczegó³y</a>
                     @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null &&
-                   (HttpContextAccessor.HttpContext.Session.GetString("UserId") == announcement.UserId.ToString() ||
-                   HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True"))
+                        (HttpContextAccessor.HttpContext.Session.GetString("UserId") == announcement.UserId.ToString() ||
+                         HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True"))
                     {
                         <a asp-action="Edit" asp-route-id="@announcement.AnnouncementId" class="btn btn-warning">Edytuj</a>
+                        <form asp-action="Delete" asp-route-id="@announcement.AnnouncementId" method="post" style="display:inline;" onsubmit="return confirm('Czy na pewno chcesz usun¹æ to og³oszenie?');">
+                            <button type="submit" class="btn btn-danger">Usuñ</button>
+                        </form>
                     }
                 </td>
             </tr>
