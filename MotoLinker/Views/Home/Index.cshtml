@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">@announcement.Title</h5>
                         <p class="card-text">@announcement.Description</p>
-                        <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-primary w-100">Szczegóły</a>
+                        <a asp-controller="Announcement" asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-primary w-100">@Localizer["Details"]</a>
                     </div>
                 </div>
             </div>

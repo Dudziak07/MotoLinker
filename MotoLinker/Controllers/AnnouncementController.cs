@@ -10,7 +10,7 @@ public class AnnouncementController : Controller
         new Announcement
         {
             AnnouncementId = 1,
-            Title = "Samochód 1",
+            Title = "BMW 3 Series super nowoczesny!",
             Description = "Opis samochodu 1",
             Price = 50000,
             Location = "Warszawa",
@@ -22,7 +22,7 @@ public class AnnouncementController : Controller
         new Announcement
         {
             AnnouncementId = 2,
-            Title = "Samochód 2",
+            Title = "Audi A4 dla ka¿dego szpanera!!!",
             Description = "Opis samochodu 2",
             Price = 40000,
             Location = "Kraków",
@@ -34,7 +34,7 @@ public class AnnouncementController : Controller
         new Announcement
         {
             AnnouncementId = 3,
-            Title = "Samochód 3",
+            Title = "Z³omek dla ubo¿szych",
             Description = "Opis samochodu 3",
             Price = 1000,
             Location = "Raciborz",
@@ -46,7 +46,7 @@ public class AnnouncementController : Controller
         new Announcement
         {
             AnnouncementId = 4,
-            Title = "Samochód 4",
+            Title = "Samochód marzeñ wprost z AUT (Z³omek)",
             Description = "Opis samochodu 4",
             Price = 100000,
             Location = "W³oc³awek",
@@ -56,6 +56,10 @@ public class AnnouncementController : Controller
             UserId = 4
         }
     };
+    public static List<Announcement> GetAnnouncements()
+    {
+        return _announcements;
+    }
 
     // Wyœwietlenie listy og³oszeñ
     public IActionResult List()
