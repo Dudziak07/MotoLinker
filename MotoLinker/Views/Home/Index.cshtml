@@ -1,9 +1,13 @@
 ﻿@model MotoLinker.Models.HomeIndexViewModel
 
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Witamy na MotoLinker</h1>
-    <p class="text-center text-muted">Znajdź wymarzony pojazd w zasięgu ręki.</p>
-    <h2 class="text-center my-5">Najnowsze ogłoszenia</h2>
+    <h1 class="text-center mb-4">@Localizer["WelcomeMotoLinker"]</h1>
+    <p class="text-center text-muted">@Localizer["FindDreamVehicle"]</p>
+    <h2 class="text-center my-5">@Localizer["LatestAdded"]</h2>
     <div class="row">
         @foreach (var announcement in Model.LatestAnnouncements)
         {
@@ -13,7 +17,6 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">@announcement.Title</h5>
                         <p class="card-text">@announcement.Description</p>
-                        <p class="card-text text-muted"><small>@GetTimeAgo(announcement.DateAdded)</small></p>
                         <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-primary w-100">Szczegóły</a>
                     </div>
                 </div>
@@ -21,21 +24,3 @@
         }
     </div>
 </div>
-
-@functions {
-    public string GetTimeAgo(DateTime dateTime)
-    {
-        var timeSpan = DateTime.Now - dateTime;
-
-        if (timeSpan.TotalMinutes < 1)
-            return "Przed chwilą";
-        else if (timeSpan.TotalMinutes < 60)
-            return $"{(int)timeSpan.TotalMinutes} minut temu";
-        else if (timeSpan.TotalHours < 24)
-            return $"{(int)timeSpan.TotalHours} godzin temu";
-        else if (timeSpan.TotalDays < 7)
-            return $"{(int)timeSpan.TotalDays} dni temu";
-        else
-            return dateTime.ToString("dd MMM yyyy");
-    }
-}
