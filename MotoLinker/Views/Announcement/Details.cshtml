@@ -7,8 +7,9 @@
 <p><strong>Marka:</strong> @Model.Brand</p>
 <p><strong>Model:</strong> @Model.Model</p>
 <p><strong>Rok produkcji:</strong> @Model.ProductionYear</p>
-<p><strong>Data dodania:</strong> @Model.DateAdded.ToString("yyyy-MM-dd")</p>
+<p><strong>Data dodania:</strong> @Model.DateAdded.ToString("yyyy-MM-dd HH:mm")</p>
 
+<p><strong>Ogłoszenie ID:</strong> @Model.AnnouncementId</p>
 <p><strong>Właściciel ID:</strong> @Model.UserId</p>
 
 <a asp-action="List" class="btn btn-secondary">Powrót do listy</a>

@@ -10,9 +10,9 @@ namespace MotoLinker.Controllers
             // Przykładowe dane ogłoszeń
             var latestAnnouncements = new List<Announcement>
             {
-                new Announcement { AnnoucementId = 1, Title = "Samochód 1", Description = "Opis 1"},
-                new Announcement { AnnoucementId = 2, Title = "Samochód 2", Description = "Opis 2"},
-                new Announcement { AnnoucementId = 3, Title = "Samochód 3", Description = "Opis 3"}
+                new Announcement { AnnouncementId = 1, Title = "Samochód 1", Description = "Opis 1"},
+                new Announcement { AnnouncementId = 2, Title = "Samochód 2", Description = "Opis 2"},
+                new Announcement { AnnouncementId = 3, Title = "Samochód 3", Description = "Opis 3"}
             };
 
             return View(new HomeIndexViewModel

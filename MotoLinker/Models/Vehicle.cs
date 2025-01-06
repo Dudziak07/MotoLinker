@@ -9,15 +9,15 @@ namespace MotoLinker.Models
     {
         public int VehicleID { get; set; }
         
-        public string VehicleMake { get; set; }
-        public string VehicleModel { get; set; }
+        public required string VehicleMake { get; set; }
+        public required string VehicleModel { get; set; }
         public int VehicleYear { get; set; }
         public int VehicleMileage { get; set; }
-        public string VehicleDescription { get; set; }
+        public required string VehicleDescription { get; set; }
         public bool VehicleStatus { get; set; } //available/sold
 
         public int SellerID { get; set; }
-        public virtual User Seller { get; set; }
+        public virtual required User Seller { get; set; }
 
 
     }

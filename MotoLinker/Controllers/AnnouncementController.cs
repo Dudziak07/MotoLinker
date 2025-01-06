@@ -9,7 +9,7 @@ public class AnnouncementController : Controller
     {
         new Announcement
         {
-            AnnoucementId = 1,
+            AnnouncementId = 1,
             Title = "Samochód 1",
             Description = "Opis samochodu 1",
             Price = 50000,
@@ -21,7 +21,7 @@ public class AnnouncementController : Controller
         },
         new Announcement
         {
-            AnnoucementId = 2,
+            AnnouncementId = 2,
             Title = "Samochód 2",
             Description = "Opis samochodu 2",
             Price = 40000,
@@ -33,7 +33,7 @@ public class AnnouncementController : Controller
         },
         new Announcement
         {
-            AnnoucementId = 3,
+            AnnouncementId = 3,
             Title = "Samochód 3",
             Description = "Opis samochodu 3",
             Price = 1000,
@@ -45,7 +45,7 @@ public class AnnouncementController : Controller
         },
         new Announcement
         {
-            AnnoucementId = 4,
+            AnnouncementId = 4,
             Title = "Samochód 4",
             Description = "Opis samochodu 4",
             Price = 1000,
@@ -63,8 +63,15 @@ public class AnnouncementController : Controller
         return View(_announcements);
     }
 
-    // Formularz dodawania og³oszenia
+    // GET: Announcement/Create
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    // POST: Announcement/Create
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Create(Announcement announcement)
     {
         if (ModelState.IsValid)
@@ -77,7 +84,7 @@ public class AnnouncementController : Controller
             }
 
             // Generowanie nowego ID dla og³oszenia
-            announcement.AnnoucementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnoucementId) + 1 : 1;
+            announcement.AnnouncementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnouncementId) + 1 : 1;
 
             // Przypisanie ID u¿ytkownika do pola UserId w og³oszeniu
             announcement.UserId = int.Parse(userId);
@@ -95,7 +102,7 @@ public class AnnouncementController : Controller
     public IActionResult Details(int id)
     {
         // ZnajdŸ og³oszenie na podstawie ID
-        var announcement = _announcements.FirstOrDefault(a => a.AnnoucementId == id);
+        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null)
         {
@@ -114,7 +121,7 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.AnnoucementId == id);
+        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
@@ -133,14 +140,14 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.AnnoucementId == id);
+        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
             return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
         }
 
-        if (id != updatedAnnouncement.AnnoucementId)
+        if (id != updatedAnnouncement.AnnouncementId)
         {
             return BadRequest();
         }

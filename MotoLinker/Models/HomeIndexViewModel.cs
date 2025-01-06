@@ -2,6 +2,6 @@
 {
     public class HomeIndexViewModel
     {
-        public List<Announcement> LatestAnnouncements { get; set; }
+        public required List<Announcement> LatestAnnouncements { get; set; }
     }
 }

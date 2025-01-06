@@ -4,17 +4,21 @@
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
+@if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null)
+{
+    <a asp-action="Create" class="btn btn-success mb-3">Dodaj og³oszenie</a>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>#</th>
             <th>Tytu³</th>
-            <th>Opis</th>
             <th>Cena</th>
             <th>Lokalizacja</th>
             <th>Marka</th>
             <th>Model</th>
-            <th>Rok produkcji</th>
+            <th>Data dodania</th>
             <th>Akcje</th>
         </tr>
     </thead>
@@ -22,21 +26,20 @@
         @foreach (var announcement in Model)
         {
             <tr>
-                <td>@announcement.AnnoucementId</td>
+                <td>@announcement.AnnouncementId</td>
                 <td>@announcement.Title</td>
-                <td>@announcement.Description</td>
                 <td>@announcement.Price PLN</td>
                 <td>@announcement.Location</td>
                 <td>@announcement.Brand</td>
                 <td>@announcement.Model</td>
-                <td>@announcement.ProductionYear</td>
+                <td>@announcement.DateAdded.ToString("yyy-MM-dd HH:mm")</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@announcement.AnnoucementId" class="btn btn-info">Szczegó³y</a>
+                    <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-info">Szczegó³y</a>
                     @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null &&
                    (HttpContextAccessor.HttpContext.Session.GetString("UserId") == announcement.UserId.ToString() ||
                    HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True"))
                     {
-                        <a asp-action="Edit" asp-route-id="@announcement.AnnoucementId" class="btn btn-warning">Edytuj</a>
+                        <a asp-action="Edit" asp-route-id="@announcement.AnnouncementId" class="btn btn-warning">Edytuj</a>
                     }
                 </td>
             </tr>
