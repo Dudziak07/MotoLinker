@@ -9,7 +9,7 @@
 
 @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null)
 {
-    <a asp-action="Create" class="btn btn-success mb-3">Dodaj og³oszenie</a>
+    <a asp-action="Create" class="btn btn-success mb-3">@Localizer["AddAd"]</a>
 }
 
 <table class="table">
