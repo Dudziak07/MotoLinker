@@ -8,12 +8,10 @@ namespace MotoLinker.Controllers
     {
         private static List<User> _users = new List<User>
         {
-             new User { Id = Guid.NewGuid(), Username = "admin", Password = "admin", IsAdmin = true },
-             new User { Id = Guid.NewGuid(), Username = "user1", Password = "password1", IsAdmin = false }
+            new User { Username = "admin", Password = "admin", IsAdmin = true },
+            new User { Username = "user1", Password = "password1", IsAdmin = false }
         };
 
-
-        // GET: Logowanie
         public IActionResult Login()
         {
             return View();
@@ -27,7 +25,7 @@ namespace MotoLinker.Controllers
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
-                HttpContext.Session.SetString("Username", user.Username); // Dodanie nazwy użytkownika do sesji
+                HttpContext.Session.SetString("Username", user.Username);
                 return RedirectToAction("List", "Announcement");
             }
 
@@ -35,14 +33,12 @@ namespace MotoLinker.Controllers
             return View();
         }
 
-        // Wylogowanie
         public IActionResult Logout(string returnUrl = "/")
         {
             HttpContext.Session.Clear();
             return Redirect(returnUrl ?? "/");
         }
 
-        // Rejestracja
         public IActionResult Register()
         {
             return View();
@@ -53,8 +49,7 @@ namespace MotoLinker.Controllers
         {
             if (ModelState.IsValid)
             {
-                user.Id = Guid.NewGuid(); // Ustaw unikalne ID
-                _users.Add(user); // Dodaj użytkownika do listy (lub bazy danych)
+                _users.Add(user); // Automatyczne przypisanie ID przez konstruktor
                 TempData["Message"] = "Rejestracja zakończona sukcesem. Możesz się zalogować.";
                 return RedirectToAction("Login");
             }
