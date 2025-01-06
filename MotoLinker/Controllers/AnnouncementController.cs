@@ -29,7 +29,7 @@ public class AnnouncementController : Controller
             Brand = "Audi",
             Model = "A4",
             ProductionYear = 2018,
-            UserId = 2 // Przypisz ID u¿ytkownika
+            UserId = 2
         },
         new Announcement
         {
@@ -48,11 +48,11 @@ public class AnnouncementController : Controller
             AnnouncementId = 4,
             Title = "Samochód 4",
             Description = "Opis samochodu 4",
-            Price = 1000,
-            Location = "Raciborz",
+            Price = 100000,
+            Location = "W³oc³awek",
             Brand = "Z³omek",
-            Model = "X1",
-            ProductionYear = 2011,
+            Model = "Car2",
+            ProductionYear = 1890,
             UserId = 4
         }
     };

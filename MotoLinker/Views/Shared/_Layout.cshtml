@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="~/MotoLinker.styles.css" asp-append-version="true" />
     @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MotoLinker</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -21,23 +21,23 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Announcement" asp-action="List">Ogłoszenia</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         @if (HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True")
                         {
                             <li class="nav-item">
-                                <a class="nav-link btn btn-outline-primary text-dark me-2" asp-controller="Admin" asp-action="Index">Panel administratora</a>
+                                <a class="nav-link btn btn-outline-warning text-light me-2" asp-controller="Admin" asp-action="Index">Panel administratora</a>
                             </li>
                         }
                         @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null)
                         {
                             <li class="nav-item">
-                                <span class="navbar-text me-2">
+                                <span class="navbar-text text-light me-2">
                                     Zalogowany jako: @HttpContextAccessor.HttpContext.Session.GetString("Username")
                                 </span>
                             </li>
@@ -59,20 +59,15 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - MotoLinker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main class="container flex-grow-1">
+        @RenderBody()
+    </main>
+    <footer>
+        <div class="container text-center">
+            &copy; 2025 MotoLinker. Wszystkie prawa zastrzeżone.
+            <br />
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-primary">Polityka prywatności</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

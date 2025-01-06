@@ -1,4 +1,6 @@
-﻿namespace MotoLinker.Models
+﻿using System.Collections.Generic;
+
+namespace MotoLinker.Models
 {
     public class HomeIndexViewModel
     {

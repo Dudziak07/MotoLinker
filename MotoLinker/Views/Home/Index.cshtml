@@ -1,21 +1,41 @@
 ﻿@model MotoLinker.Models.HomeIndexViewModel
 
-<h1>Witamy na MotoLinker</h1>
-<p>Znajdź wymarzony pojazd w zasięgu ręki.</p>
-
-<h2>Najnowsze ogłoszenia</h2>
-<div class="row">
-    @foreach (var announcement in Model.LatestAnnouncements)
-    {
-        <div class="col-md-4">
-            <div class="card">
-                <img src="@announcement" class="card-img-top" alt="@announcement.Title" />
-                <div class="card-body">
-                    <h5 class="card-title">@announcement.Title</h5>
-                    <p class="card-text">@announcement.Description</p>
-                    <a href="@Url.Action("Details", "Announcement", new { id = announcement.AnnouncementId })" class="btn btn-primary">Szczegóły</a>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Witamy na MotoLinker</h1>
+    <p class="text-center text-muted">Znajdź wymarzony pojazd w zasięgu ręki.</p>
+    <h2 class="text-center my-5">Najnowsze ogłoszenia</h2>
+    <div class="row">
+        @foreach (var announcement in Model.LatestAnnouncements)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Zdjęcie ogłoszenia">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@announcement.Title</h5>
+                        <p class="card-text">@announcement.Description</p>
+                        <p class="card-text text-muted"><small>@GetTimeAgo(announcement.DateAdded)</small></p>
+                        <a asp-action="Details" asp-route-id="@announcement.AnnouncementId" class="btn btn-primary w-100">Szczegóły</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
+
+@functions {
+    public string GetTimeAgo(DateTime dateTime)
+    {
+        var timeSpan = DateTime.Now - dateTime;
+
+        if (timeSpan.TotalMinutes < 1)
+            return "Przed chwilą";
+        else if (timeSpan.TotalMinutes < 60)
+            return $"{(int)timeSpan.TotalMinutes} minut temu";
+        else if (timeSpan.TotalHours < 24)
+            return $"{(int)timeSpan.TotalHours} godzin temu";
+        else if (timeSpan.TotalDays < 7)
+            return $"{(int)timeSpan.TotalDays} dni temu";
+        else
+            return dateTime.ToString("dd MMM yyyy");
+    }
+}
