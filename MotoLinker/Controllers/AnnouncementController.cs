@@ -9,7 +9,7 @@ public class AnnouncementController : Controller
     {
         new Announcement
         {
-            Id = 1,
+            AnnoucementId = 1,
             Title = "Samochód 1",
             Description = "Opis samochodu 1",
             Price = 50000,
@@ -17,11 +17,11 @@ public class AnnouncementController : Controller
             Brand = "BMW",
             Model = "3 Series",
             ProductionYear = 2020,
-            UserId = 1 // Przypisz ID u¿ytkownika, który doda³ og³oszenie
+            UserId = 3 // Przypisz ID u¿ytkownika, który doda³ og³oszenie
         },
         new Announcement
         {
-            Id = 2,
+            AnnoucementId = 2,
             Title = "Samochód 2",
             Description = "Opis samochodu 2",
             Price = 40000,
@@ -33,7 +33,7 @@ public class AnnouncementController : Controller
         },
         new Announcement
         {
-            Id = 3,
+            AnnoucementId = 3,
             Title = "Samochód 3",
             Description = "Opis samochodu 3",
             Price = 1000,
@@ -45,15 +45,15 @@ public class AnnouncementController : Controller
         },
         new Announcement
         {
-            Id = 4,
-            Title = "Samochód 3",
-            Description = "Opis samochodu 3",
+            AnnoucementId = 4,
+            Title = "Samochód 4",
+            Description = "Opis samochodu 4",
             Price = 1000,
             Location = "Raciborz",
             Brand = "Z³omek",
             Model = "X1",
             ProductionYear = 2011,
-            UserId = 3
+            UserId = 4
         }
     };
 
@@ -69,14 +69,20 @@ public class AnnouncementController : Controller
     {
         if (ModelState.IsValid)
         {
+            // Pobieranie ID u¿ytkownika z sesji
             var userId = HttpContext.Session.GetString("UserId");
-            if (userId == null) return RedirectToAction("Login", "Auth");
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
 
             // Generowanie nowego ID dla og³oszenia
-            announcement.Id = _announcements.Count + 1;
+            announcement.AnnoucementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnoucementId) + 1 : 1;
 
-            // Przypisz ID u¿ytkownika z sesji do og³oszenia
+            // Przypisanie ID u¿ytkownika do pola UserId w og³oszeniu
             announcement.UserId = int.Parse(userId);
+
+            // Dodanie og³oszenia do listy
             _announcements.Add(announcement);
 
             TempData["Message"] = "Og³oszenie zosta³o dodane.";
@@ -89,7 +95,7 @@ public class AnnouncementController : Controller
     public IActionResult Details(int id)
     {
         // ZnajdŸ og³oszenie na podstawie ID
-        var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+        var announcement = _announcements.FirstOrDefault(a => a.AnnoucementId == id);
 
         if (announcement == null)
         {
@@ -108,7 +114,7 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+        var announcement = _announcements.FirstOrDefault(a => a.AnnoucementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
@@ -127,14 +133,14 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.Id == id);
+        var announcement = _announcements.FirstOrDefault(a => a.AnnoucementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
             return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
         }
 
-        if (id != updatedAnnouncement.Id)
+        if (id != updatedAnnouncement.AnnoucementId)
         {
             return BadRequest();
         }

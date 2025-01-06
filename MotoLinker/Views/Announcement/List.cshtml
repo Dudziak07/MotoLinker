@@ -22,7 +22,7 @@
         @foreach (var announcement in Model)
         {
             <tr>
-                <td>@announcement.UserId</td> <!-- Wyœwietlanie ID w formacie 000-000-001 -->
+                <td>@announcement.AnnoucementId</td>
                 <td>@announcement.Title</td>
                 <td>@announcement.Description</td>
                 <td>@announcement.Price PLN</td>
@@ -31,12 +31,12 @@
                 <td>@announcement.Model</td>
                 <td>@announcement.ProductionYear</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@announcement.Id" class="btn btn-info">Szczegó³y</a>
+                    <a asp-action="Details" asp-route-id="@announcement.AnnoucementId" class="btn btn-info">Szczegó³y</a>
                     @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null &&
                    (HttpContextAccessor.HttpContext.Session.GetString("UserId") == announcement.UserId.ToString() ||
                    HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True"))
                     {
-                        <a asp-action="Edit" asp-route-id="@announcement.Id" class="btn btn-warning">Edytuj</a>
+                        <a asp-action="Edit" asp-route-id="@announcement.AnnoucementId" class="btn btn-warning">Edytuj</a>
                     }
                 </td>
             </tr>
