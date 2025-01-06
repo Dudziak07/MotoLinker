@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MotoLinker.Models.User>
+
+<h1>Panel Administratora</h1>
+<p class="text-muted">Zarządzanie użytkownikami</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Administrator</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserId</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@(user.IsAdmin ? "Tak" : "Nie")</td>
+                <td>
+                    <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">Edytuj</a>
+                    @if (user.UserId != 1) // Ukryj dodatkowe przyciski dla konta o ID 1
+                    {
+                        <form asp-action="ToggleAdmin" asp-route-id="@user.UserId" method="post" class="d-inline">
+                            <button type="submit" class="btn @(user.IsAdmin ? "btn-danger" : "btn-success") btn-sm">
+                                @(user.IsAdmin ? "Usuń admina" : "Nadaj admina")
+                            </button>
+                        </form>
+                        <a asp-action="DeleteUser" asp-route-id="@user.UserId" class="btn btn-danger btn-sm">Usuń</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Wróć</a>

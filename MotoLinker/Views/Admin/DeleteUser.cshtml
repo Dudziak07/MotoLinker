@@ -1,0 +1,9 @@
+﻿@model MotoLinker.Models.User
+
+<h1>Usuń użytkownika</h1>
+<p>Czy na pewno chcesz usunąć użytkownika <strong>@Model.Username</strong>?</p>
+
+<form asp-action="DeleteUser" method="post">
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>
