@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MotoLinker.Models;
 
 namespace MotoLinker.Models
 {
@@ -46,5 +47,16 @@ namespace MotoLinker.Models
                     new[] { nameof(ProductionYear) });
             }
         }
+
+        public List<Category> Categories { get; set; } = new List<Category>();
     }
+}
+
+public class Category
+{
+    public int CategoryId { get; set; }
+    public string Name { get; set; }
+
+    // Relacja wiele-do-wielu
+    public List<Announcement> Announcements { get; set; } = new List<Announcement>();
 }

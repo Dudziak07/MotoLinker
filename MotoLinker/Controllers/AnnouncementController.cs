@@ -1,9 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MotoLinker.Models;
 
 namespace MotoLinker.Controllers;
 public class AnnouncementController : Controller
 {
+    private static List<MotoLinker.Models.Category> _categories = new List<MotoLinker.Models.Category>
+    {
+        new MotoLinker.Models.Category { CategoryId = 1, Name = "Samochody osobowe" },
+        new MotoLinker.Models.Category { CategoryId = 2, Name = "Samochody dostawcze" },
+        new MotoLinker.Models.Category { CategoryId = 3, Name = "Motocykle" }
+    };
+
+
     // Statyczna lista og³oszeñ (na razie bez bazy danych)
     private static List<Announcement> _announcements = new List<Announcement>
     {
@@ -17,7 +26,8 @@ public class AnnouncementController : Controller
             Brand = "BMW",
             Model = "3 Series",
             ProductionYear = 2020,
-            UserId = 3 // Przypisz ID u¿ytkownika, który doda³ og³oszenie
+            UserId = 3, // Przypisz ID u¿ytkownika, który doda³ og³oszenie
+            Categories = new List<MotoLinker.Models.Category> { _categories[0] } // Powi¹zanie z kategori¹ "Samochody osobowe"
         },
         new Announcement
         {
@@ -29,7 +39,8 @@ public class AnnouncementController : Controller
             Brand = "Audi",
             Model = "A4",
             ProductionYear = 2018,
-            UserId = 2
+            UserId = 2,
+            Categories = new List<MotoLinker.Models.Category> { _categories[0] }
         },
         new Announcement
         {
@@ -41,7 +52,8 @@ public class AnnouncementController : Controller
             Brand = "Z³omek",
             Model = "X1",
             ProductionYear = 2011,
-            UserId = 1
+            UserId = 1,
+            Categories = new List<MotoLinker.Models.Category> { _categories[0], _categories[1] }
         },
         new Announcement
         {
@@ -53,7 +65,8 @@ public class AnnouncementController : Controller
             Brand = "Z³omek",
             Model = "Car2",
             ProductionYear = 1890,
-            UserId = 4
+            UserId = 4,
+            Categories = new List<MotoLinker.Models.Category> { _categories[0], _categories[1], _categories[2] }
         }
     };
     public static List<Announcement> GetAnnouncements()
@@ -64,6 +77,7 @@ public class AnnouncementController : Controller
     // Wyœwietlenie listy og³oszeñ
     public IActionResult List()
     {
+        ViewBag.Categories = _categories; // Przypisanie listy kategorii
         return View(_announcements);
     }
 
@@ -194,5 +208,27 @@ public class AnnouncementController : Controller
 
         TempData["Message"] = "Og³oszenie zosta³o usuniête.";
         return RedirectToAction("List");
+    }
+
+    public IActionResult ByCategory(int id)
+    {
+        // Filtrowanie og³oszeñ wed³ug kategorii
+        var announcements = _announcements
+            .Where(a => a.Categories.Any(c => c.CategoryId == id))
+            .ToList();
+
+        ViewBag.Categories = _categories; // Przekazanie kategorii do widoku
+        ViewBag.CurrentCategoryId = id; // Przekazanie aktualnej kategorii
+
+        return View("List", announcements);
+    }
+
+
+    public IActionResult ListAll()
+    {
+        // Wyœwietlenie wszystkich og³oszeñ
+        ViewBag.Categories = _categories; // Przekazanie kategorii do widoku
+
+        return View("List", _announcements);
     }
 }

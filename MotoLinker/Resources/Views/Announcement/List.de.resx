@@ -129,6 +129,9 @@
   <data name="Brand" xml:space="preserve">
     <value>Marke</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategorien</value>
+  </data>
   <data name="DateAdded" xml:space="preserve">
     <value>Hinzugefügt am</value>
   </data>
