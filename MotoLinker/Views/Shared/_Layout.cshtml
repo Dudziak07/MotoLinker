@@ -59,17 +59,20 @@
                         }
                     </ul>
                     </div>
-                    <div class="d-flex flex-column align-items-center">
-                        <a asp-route-culture="pl">
+                <div class="d-flex align-items-center">
+                    <form asp-controller="Home" asp-action="ChangeLanguage" method="get">
+                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                        <button type="submit" name="culture" value="pl" class="btn btn-link p-0">
                             <img src="https://cdn-icons-png.flaticon.com/512/197/197529.png" alt="PL" width="24">
-                        </a>
-                        <a asp-route-culture="en">
+                        </button>
+                        <button type="submit" name="culture" value="en" class="btn btn-link p-0">
                             <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="EN" width="24">
-                        </a>
-                        <a asp-route-culture="de">
+                        </button>
+                        <button type="submit" name="culture" value="de" class="btn btn-link p-0">
                             <img src="https://cdn-icons-png.flaticon.com/512/197/197571.png" alt="DE" width="24">
-                        </a>
-                    </div>
+                        </button>
+                    </form>
+                </div>
         </nav>
     </header>
     <main class="container flex-grow-1">
