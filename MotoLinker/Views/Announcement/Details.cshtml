@@ -51,25 +51,3 @@
 }
 
 <span style="font-size: small; color: gray;"><br />@Localizer["Viewed"] @Model.Views</span>
-
-
-<!-- Modal Potwierdzenia Usunięcia -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalLabel">@Localizer["DeleteConfirm"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @Localizer["DeleteConfirm"]
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
-                <form asp-action="Delete" asp-route-id="@Model.AnnouncementId" method="post">
-                    <button type="submit" class="btn btn-danger">@Localizer["DeleteAdButton"]</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
