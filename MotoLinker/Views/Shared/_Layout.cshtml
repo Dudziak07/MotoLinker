@@ -11,6 +11,13 @@
 
     @using Microsoft.AspNetCore.Mvc.Localization
     @inject IViewLocalizer Localizer
+    <style>
+        /* Umożliwia rozwinięcie menu po najechaniu */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0; /* Zapobiega przesuwaniu */
+        }
+    </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
@@ -18,7 +25,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MotoLinker</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -33,8 +40,18 @@
                     <ul class="navbar-nav">
                         @if (HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True")
                         {
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-outline-warning text-light me-2" asp-controller="Admin" asp-action="Index">@Localizer["AdminPanelTitle"]</a>
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-warning dropdown-toggle text-light admin-panel-button" type="button" id="adminPanelDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @Localizer["AdminPanelTitle"]
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminPanelDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-action="ManageUsers" asp-controller="Admin">@Localizer["ManageUsers"]</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="ManageCategories" asp-controller="Admin">@Localizer["ManageCategories"]</a>
+                                    </li>
+                                </ul>
                             </li>
                         }
                         @if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null)
@@ -58,18 +75,21 @@
                             </li>
                         }
                     </ul>
-                    </div>
-                    <div class="d-flex flex-column align-items-center">
-                        <a asp-route-culture="pl">
-                            <img src="https://cdn-icons-png.flaticon.com/512/197/197529.png" alt="PL" width="24">
-                        </a>
-                        <a asp-route-culture="en">
-                            <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="EN" width="24">
-                        </a>
-                        <a asp-route-culture="de">
-                            <img src="https://cdn-icons-png.flaticon.com/512/197/197571.png" alt="DE" width="24">
-                        </a>
-                    </div>
+                </div>
+                <div class="d-flex align-items-center ms-2">
+                    <form asp-controller="Home" asp-action="ChangeLanguage" method="get" class="d-flex align-items-center">
+                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                        <button type="submit" name="culture" value="pl" class="btn btn-link p-0">
+                            <img src="https://cdn-icons-png.flaticon.com/512/197/197529.png" alt="PL" width="32">
+                        </button>
+                        <button type="submit" name="culture" value="en" class="btn btn-link p-0">
+                            <img src="https://cdn-icons-png.flaticon.com/512/197/197374.png" alt="EN" width="32">
+                        </button>
+                        <button type="submit" name="culture" value="de" class="btn btn-link p-0">
+                            <img src="https://cdn-icons-png.flaticon.com/512/197/197571.png" alt="DE" width="32">
+                        </button>
+                    </form>
+                </div>
         </nav>
     </header>
     <main class="container flex-grow-1">

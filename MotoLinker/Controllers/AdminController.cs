@@ -12,14 +12,14 @@ namespace MotoLinker.Controllers
             new User { UserId = 3, Username = "user2", Email = "user2@example.com", Password = "password2", IsAdmin = false }
         };
 
-        public IActionResult Index()
+        public IActionResult ManageUsers()
         {
             if (HttpContext.Session.GetString("IsAdmin") != "True")
             {
                 return Forbid();
             }
 
-            return View("AdminIndex", _users);
+            return View("ManageUsers", _users);
         }
 
         public IActionResult EditUser(int id)
@@ -62,7 +62,7 @@ namespace MotoLinker.Controllers
             }
 
             TempData["Message"] = "Dane użytkownika zostały zaktualizowane.";
-            return RedirectToAction("Index");
+            return RedirectToAction("ManageUsers");
         }
 
         public IActionResult DeleteUser(int id)
@@ -89,7 +89,7 @@ namespace MotoLinker.Controllers
 
             _users.Remove(user);
             TempData["Message"] = "Użytkownik został usunięty.";
-            return RedirectToAction("Index");
+            return RedirectToAction("ManageUsers");
         }
 
         public IActionResult MakeAdmin(int id)
@@ -103,7 +103,7 @@ namespace MotoLinker.Controllers
 
             user.IsAdmin = true;
             TempData["Message"] = $"Użytkownik {user.Username} został administratorem.";
-            return RedirectToAction("Index");
+            return RedirectToAction("ManageUsers");
         }
 
         [HttpPost]
@@ -123,7 +123,17 @@ namespace MotoLinker.Controllers
                 ? "Użytkownik został administratorem."
                 : "Uprawnienia administratora zostały odebrane.";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ManageUsers");
+        }
+
+        public IActionResult ManageCategories()
+        {
+            if (HttpContext.Session.GetString("IsAdmin") != "True")
+            {
+                return Forbid();
+            }
+            // Dodaj logikę do wyświetlania kategorii
+            return View("ManageCategories");
         }
     }
 }

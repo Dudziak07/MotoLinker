@@ -10,6 +10,17 @@
 <h2>@ViewData["Title"]</h2>
 
 <form asp-action="Edit" method="post">
+    <h3>@Localizer["Categories"]</h3>
+    <div class="form-group">
+        @foreach (var category in ViewBag.Categories as List<MotoLinker.Models.Category>)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="SelectedCategoryIds" value="@category.CategoryId" class="form-check-input"
+                @(Model.SelectedCategoryIds != null && Model.SelectedCategoryIds.Contains(category.CategoryId) ? "checked" : "") />
+                <label class="form-check-label">@category.Name</label>
+            </div>
+        }
+    </div>
     <div class="form-group">
         <label asp-for="Title">@Localizer["Title"]</label>
         <input asp-for="Title" class="form-control" />
@@ -45,6 +56,46 @@
         <input asp-for="ProductionYear" class="form-control" />
         <span asp-validation-for="ProductionYear" class="text-danger"></span>
     </div>
+
+    <h3>@Localizer["Attributes"]</h3>
+    <div id="attributes-container">
+        @for (int i = 0; i < Model.Attributes.Count; i++)
+        {
+            <div class="form-group attribute-row">
+                <label>Attribute Key</label>
+                <input type="text" name="Attributes[@i].Key" value="@Model.Attributes[i].Key" class="form-control" />
+
+                <label>Attribute Type</label>
+                <select asp-for="Attributes[@i].Type" class="form-control">
+                    @Html.GetEnumSelectList(typeof(AttributeType))
+                </select>
+
+                <label>Attribute Value</label>
+                <div class="attribute-value-container" data-index="@i">
+                    @switch (Model.Attributes[i].Type)
+                    {
+                        case AttributeType.ShortText:
+                            <input type="text" name="Attributes[@i].Value" value="@Model.Attributes[i].Value" class="form-control" />
+                            break;
+                        case AttributeType.LongText:
+                            <textarea name="Attributes[@i].Value" class="form-control">@Model.Attributes[i].Value</textarea>
+                            break;
+                        case AttributeType.Integer:
+                            <input type="number" name="Attributes[@i].Value" value="@Model.Attributes[i].Value" class="form-control" step="1" />
+                            break;
+                        case AttributeType.Real:
+                            <input type="number" name="Attributes[@i].Value" value="@Model.Attributes[i].Value" class="form-control" step="0.01" />
+                            break;
+                        case AttributeType.Boolean:
+                            <input type="checkbox" name="Attributes[@i].Value" value="true" @(Model.Attributes[i].Value == "true" ? "checked" : "") />
+                            break;
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    <button type="button" id="add-attribute" class="btn btn-secondary">@Localizer["AddAttribute"]</button>
+
     <input type="hidden" asp-for="AnnouncementId" />
     <button type="submit" class="btn btn-primary">@Localizer["EditAdButton"]</button>
     <a asp-action="List" class="btn btn-secondary">@Localizer["Cancel"]</a>
@@ -54,4 +105,60 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        let attributeIndex = @Model.Attributes.Count; // Ustaw indeks początkowy na liczbę istniejących atrybutów
+
+        document.getElementById('add-attribute').addEventListener('click', () => {
+            const container = document.getElementById('attributes-container');
+            const template = `
+                <div class="form-group attribute-row">
+                    <label>@Localizer["AttributeKey"]</label>
+                    <input type="text" name="attributes[${attributeIndex}].Key" class="form-control" />
+                    <label>@Localizer["AttributeType"]</label>
+                    <select name="attributes[${attributeIndex}].Type" class="form-control attribute-type" data-index="${attributeIndex}" onchange="updateAttributeValueInput(this)">
+                        <option value="ShortText">@Localizer["ShortText"]</option>
+                        <option value="LongText">@Localizer["LongText"]</option>
+                        <option value="Integer">@Localizer["Integer"]</option>
+                        <option value="Real">@Localizer["Real"]</option>
+                        <option value="Boolean">@Localizer["Boolean"]</option>
+                    </select>
+                    <label>@Localizer["AttributeValue"]</label>
+                    <div class="attribute-value-container" data-index="${attributeIndex}">
+                        <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', template);
+            attributeIndex++;
+        });
+
+        function updateAttributeValueInput(selectElement) {
+            const index = selectElement.getAttribute('data-index');
+            const valueContainer = document.querySelector(`.attribute-value-container[data-index="${index}"]`);
+            const type = selectElement.value;
+
+            let inputElement;
+
+            switch (type) {
+                case 'ShortText':
+                    inputElement = `<input type="text" name="Attributes[${index}].Value" class="form-control" />`;
+                    break;
+                case 'LongText':
+                    inputElement = `<textarea name="Attributes[${index}].Value" class="form-control"></textarea>`;
+                    break;
+                case 'Integer':
+                    inputElement = `<input type="number" name="Attributes[${index}].Value" class="form-control" step="1" />`;
+                    break;
+                case 'Real':
+                    inputElement = `<input type="number" name="Attributes[${index}].Value" class="form-control" step="0.01" />`;
+                    break;
+                case 'Boolean':
+                    inputElement = `<input type="checkbox" name="Attributes[${index}].Value" class="form-check-input" value="true" />`;
+                    break;
+            }
+
+            valueContainer.innerHTML = inputElement;
+        }
+    </script>
 }

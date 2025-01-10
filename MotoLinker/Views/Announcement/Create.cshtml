@@ -6,6 +6,16 @@
 <h2>@Localizer["CreateAdTitle"]</h2>
 
 <form asp-action="Create" method="post">
+    <h3>@Localizer["Categories"]</h3>
+    <div class="form-group">
+        @foreach (var category in ViewBag.Categories as List<MotoLinker.Models.Category>)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="SelectedCategoryIds" value="@category.CategoryId" class="form-check-input" />
+                <label class="form-check-label">@category.Name</label>
+            </div>
+        }
+    </div>
     <div class="form-group">
         <label asp-for="Title">@Localizer["Title"]</label>
         <input asp-for="Title" class="form-control" />
@@ -41,6 +51,72 @@
         <input asp-for="ProductionYear" class="form-control" />
         <span asp-validation-for="ProductionYear" class="text-danger"></span>
     </div>
+
+    <h3>@Localizer["Attributes"]</h3>
+    <div id="attribute-container">
+        <!-- Domyœlnie brak atrybutów -->
+    </div>
+    <button type="button" id="add-attribute" class="btn btn-secondary">@Localizer["AddAttribute"]</button>
+
     <button type="submit" class="btn btn-primary">@Localizer["AddAdButton"]</button>
     <a asp-action="List" class="btn btn-secondary">@Localizer["Cancel"]</a>
 </form>
+
+@section Scripts {
+    <script>
+        let attributeIndex = 0;
+
+        document.getElementById('add-attribute').addEventListener('click', () => {
+            const container = document.getElementById('attribute-container');
+            const template = `
+                <div class="form-group attribute-row">
+                    <label>@Localizer["AttributeKey"]</label>
+                    <input type="text" name="attributes[${attributeIndex}].Key" class="form-control" />
+                    <label>@Localizer["AttributeType"]</label>
+                    <select name="attributes[${attributeIndex}].Type" class="form-control attribute-type" data-index="${attributeIndex}" onchange="updateAttributeValueInput(this)">
+                        <option value="ShortText">@Localizer["ShortText"]</option>
+                        <option value="LongText">@Localizer["LongText"]</option>
+                        <option value="Integer">@Localizer["Integer"]</option>
+                        <option value="Real">@Localizer["Real"]</option>
+                        <option value="Boolean">@Localizer["Boolean"]</option>
+                    </select>
+                    <label>@Localizer["AttributeValue"]</label>
+                    <div class="attribute-value-container" data-index="${attributeIndex}">
+                        <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', template);
+            attributeIndex++;
+        });
+
+        function updateAttributeValueInput(selectElement) {
+            const index = selectElement.getAttribute('data-index');
+            const valueContainer = document.querySelector(`.attribute-value-container[data-index="${index}"]`);
+            const type = selectElement.value;
+
+            let inputElement;
+
+            switch (type) {
+                case 'ShortText':
+                    inputElement = `<input type="text" name="attributes[${index}].Value" class="form-control" />`;
+                    break;
+                case 'LongText':
+                    inputElement = `<textarea name="attributes[${index}].Value" class="form-control"></textarea>`;
+                    break;
+                case 'Integer':
+                    inputElement = `<input type="number" name="attributes[${index}].Value" class="form-control" step="1" />`;
+                    break;
+                case 'Real':
+                    inputElement = `<input type="number" name="attributes[${index}].Value" class="form-control" step="0.01" />`;
+                    break;
+                case 'Boolean':
+                    inputElement = `<input type="checkbox" name="attributes[${index}].Value" class="form-check-input" value="true" />`;
+                    break;
+            }
+
+            valueContainer.innerHTML = inputElement;
+        }
+
+    </script>
+}

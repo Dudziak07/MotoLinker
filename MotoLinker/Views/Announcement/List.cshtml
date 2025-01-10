@@ -12,6 +12,25 @@
     <a asp-action="Create" class="btn btn-success mb-3">@Localizer["AddAd"]</a>
 }
 
+<h2>@Localizer["Categories"]</h2>
+<div class="form-group">
+    <select id="categorySelect" class="form-control" onchange="filterByCategory()">
+        <option value="">
+            @Localizer["AllCategories"]</option>
+        @foreach (var category in ViewBag.Categories as IEnumerable<MotoLinker.Models.Category>)
+        {
+            if (category.CategoryId == (int?)ViewBag.CurrentCategoryId)
+            {
+                <option value="@category.CategoryId" selected>@category.Name</option>
+            }
+            else
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        }
+    </select>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -23,6 +42,7 @@
             <th>@Localizer["Model"]</th>
             <th>@Localizer["DateAdded"]</th>
             <th>@Localizer["Actions"]</th>
+            <th>@Localizer["Categories"]</th>
         </tr>
     </thead>
     <tbody>
@@ -48,7 +68,27 @@
                         </form>
                     }
                 </td>
+                <td>
+                    @if (announcement.Categories != null)
+                    {
+                        @foreach (var category in announcement.Categories)
+                        {
+                            <span class="badge bg-primary">@category.Name</span>
+                        }
+                    }
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script>
+    function filterByCategory() {
+        var categoryId = document.getElementById("categorySelect").value;
+        if (categoryId) {
+            window.location.href = '/Announcement/ByCategory/' + categoryId;
+        } else {
+            window.location.href = '/Announcement/List';
+        }
+    }
+</script>

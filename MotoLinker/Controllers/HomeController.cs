@@ -20,5 +20,19 @@ namespace MotoLinker.Controllers
                 LatestAnnouncements = latestAnnouncements
             });
         }
+        public IActionResult ChangeLanguage(string culture, string returnUrl)
+        {
+            if (!string.IsNullOrEmpty(culture))
+            {
+                HttpContext.Session.SetString("CurrentCulture", culture);
+                Response.Cookies.Append(
+                    CookieRequestCultureProvider.DefaultCookieName,
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+            }
+
+            return LocalRedirect(returnUrl);
+        }
     }
 }

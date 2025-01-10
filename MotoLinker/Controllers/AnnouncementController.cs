@@ -1,9 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MotoLinker.Models;
 
 namespace MotoLinker.Controllers;
 public class AnnouncementController : Controller
 {
+    private static List<MotoLinker.Models.Category> _categories = new List<MotoLinker.Models.Category>
+    {
+        new MotoLinker.Models.Category { CategoryId = 1, Name = "Samochody osobowe" },
+        new MotoLinker.Models.Category { CategoryId = 2, Name = "Samochody dostawcze" },
+        new MotoLinker.Models.Category { CategoryId = 3, Name = "Motocykle" }
+    };
+
+
     // Statyczna lista og³oszeñ (na razie bez bazy danych)
     private static List<Announcement> _announcements = new List<Announcement>
     {
@@ -17,7 +26,8 @@ public class AnnouncementController : Controller
             Brand = "BMW",
             Model = "3 Series",
             ProductionYear = 2020,
-            UserId = 3 // Przypisz ID u¿ytkownika, który doda³ og³oszenie
+            UserId = 3, // Przypisz ID u¿ytkownika, który doda³ og³oszenie
+            Categories = new List<MotoLinker.Models.Category> { _categories[0] } // Powi¹zanie z kategori¹ "Samochody osobowe"
         },
         new Announcement
         {
@@ -29,7 +39,8 @@ public class AnnouncementController : Controller
             Brand = "Audi",
             Model = "A4",
             ProductionYear = 2018,
-            UserId = 2
+            UserId = 2,
+            Categories = new List<MotoLinker.Models.Category> { _categories[0] }
         },
         new Announcement
         {
@@ -41,7 +52,8 @@ public class AnnouncementController : Controller
             Brand = "Z³omek",
             Model = "X1",
             ProductionYear = 2011,
-            UserId = 1
+            UserId = 1,
+            Categories = new List<MotoLinker.Models.Category> { _categories[0], _categories[1] }
         },
         new Announcement
         {
@@ -53,7 +65,8 @@ public class AnnouncementController : Controller
             Brand = "Z³omek",
             Model = "Car2",
             ProductionYear = 1890,
-            UserId = 4
+            UserId = 4,
+            Categories = new List<MotoLinker.Models.Category> { _categories[0], _categories[1], _categories[2] }
         }
     };
     public static List<Announcement> GetAnnouncements()
@@ -64,12 +77,15 @@ public class AnnouncementController : Controller
     // Wyœwietlenie listy og³oszeñ
     public IActionResult List()
     {
+        ViewBag.Categories = _categories; // Przypisanie listy kategorii
         return View(_announcements);
     }
 
     // GET: Announcement/Create
     public IActionResult Create()
     {
+        ViewBag.Categories = _categories; // Przekazywanie kategorii do widoku
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View();
     }
 
@@ -80,26 +96,29 @@ public class AnnouncementController : Controller
     {
         if (ModelState.IsValid)
         {
-            // Pobieranie ID u¿ytkownika z sesji
-            var userId = HttpContext.Session.GetString("UserId");
-            if (userId == null)
+            // Przypisanie wybranych kategorii
+            announcement.Categories = _categories
+                .Where(c => announcement.SelectedCategoryIds.Contains(c.CategoryId))
+                .ToList();
+
+            // Jeœli lista atrybutów jest pusta, ustaw pust¹ listê
+            if (announcement.Attributes == null)
             {
-                return RedirectToAction("Login", "Auth");
+                announcement.Attributes = new List<AttributeValue>();
             }
 
-            // Generowanie nowego ID dla og³oszenia
             announcement.AnnouncementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnouncementId) + 1 : 1;
+            var userId = HttpContext.Session.GetString("UserId");
+            if (userId != null) announcement.UserId = int.Parse(userId);
 
-            // Przypisanie ID u¿ytkownika do pola UserId w og³oszeniu
-            announcement.UserId = int.Parse(userId);
-
-            // Dodanie og³oszenia do listy
             _announcements.Add(announcement);
 
             TempData["Message"] = "Og³oszenie zosta³o dodane.";
             return RedirectToAction("List");
         }
 
+        ViewBag.Categories = _categories;
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(announcement);
     }
 
@@ -129,13 +148,18 @@ public class AnnouncementController : Controller
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
-            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
+            return Forbid();
         }
 
+        announcement.SelectedCategoryIds = announcement.Categories.Select(c => c.CategoryId).ToList();
+
+        ViewBag.Categories = _categories;
+
+        // Przekazanie atrybutów do widoku
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(announcement);
     }
 
-    // POST: Announcement/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Announcement updatedAnnouncement)
@@ -148,7 +172,7 @@ public class AnnouncementController : Controller
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
-            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
+            return Forbid();
         }
 
         if (id != updatedAnnouncement.AnnouncementId)
@@ -158,6 +182,11 @@ public class AnnouncementController : Controller
 
         if (ModelState.IsValid)
         {
+            // Aktualizacja kategorii
+            announcement.Categories = _categories
+                .Where(c => updatedAnnouncement.SelectedCategoryIds.Contains(c.CategoryId))
+                .ToList();
+
             // Aktualizacja w³aœciwoœci og³oszenia
             announcement.Title = updatedAnnouncement.Title;
             announcement.Description = updatedAnnouncement.Description;
@@ -167,9 +196,24 @@ public class AnnouncementController : Controller
             announcement.Model = updatedAnnouncement.Model;
             announcement.ProductionYear = updatedAnnouncement.ProductionYear;
 
+            // Obs³uga atrybutów
+            if (updatedAnnouncement.Attributes == null)
+            {
+                updatedAnnouncement.Attributes = new List<AttributeValue>();
+            }
+
+            // Aktualizacja atrybutów
+            if (updatedAnnouncement.Attributes != null)
+            {
+                announcement.Attributes = updatedAnnouncement.Attributes;
+            }
+
+            TempData["Message"] = "Og³oszenie zosta³o zaktualizowane.";
             return RedirectToAction(nameof(List));
         }
 
+        ViewBag.Categories = _categories;
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(updatedAnnouncement);
     }
 
@@ -194,5 +238,27 @@ public class AnnouncementController : Controller
 
         TempData["Message"] = "Og³oszenie zosta³o usuniête.";
         return RedirectToAction("List");
+    }
+
+    public IActionResult ByCategory(int id)
+    {
+        // Filtrowanie og³oszeñ wed³ug kategorii
+        var announcements = _announcements
+            .Where(a => a.Categories.Any(c => c.CategoryId == id))
+            .ToList();
+
+        ViewBag.Categories = _categories; // Przekazanie kategorii do widoku
+        ViewBag.CurrentCategoryId = id; // Przekazanie aktualnej kategorii
+
+        return View("List", announcements);
+    }
+
+
+    public IActionResult ListAll()
+    {
+        // Wyœwietlenie wszystkich og³oszeñ
+        ViewBag.Categories = _categories; // Przekazanie kategorii do widoku
+
+        return View("List", _announcements);
     }
 }
