@@ -12,14 +12,14 @@ namespace MotoLinker.Controllers
             new User { UserId = 3, Username = "user2", Email = "user2@example.com", Password = "password2", IsAdmin = false }
         };
 
-        public IActionResult Index()
+        public IActionResult ManageUsers()
         {
             if (HttpContext.Session.GetString("IsAdmin") != "True")
             {
                 return Forbid();
             }
 
-            return View("AdminIndex", _users);
+            return View("ManageUsers", _users);
         }
 
         public IActionResult EditUser(int id)
@@ -124,6 +124,16 @@ namespace MotoLinker.Controllers
                 : "Uprawnienia administratora zostały odebrane.";
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult ManageCategories()
+        {
+            if (HttpContext.Session.GetString("IsAdmin") != "True")
+            {
+                return Forbid();
+            }
+            // Dodaj logikę do wyświetlania kategorii
+            return View("ManageCategories");
         }
     }
 }

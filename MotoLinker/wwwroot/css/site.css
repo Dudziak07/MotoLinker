@@ -41,3 +41,45 @@ a img, a.btn {
         transform: scale(1.1);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
+
+/* Ukrywanie strza³ki */
+.btn-warning.dropdown-toggle::after {
+    content: none; /* Usuwa strza³kê */
+}
+
+/* Styl przycisku przed najechaniem */
+.admin-panel-button {
+    background-color: transparent; /* Przezroczyste t³o */
+    border: 2px solid #ffc107; /* ¯ó³ta obwódka */
+    color: #ffc107; /* ¯ó³ty tekst */
+    transition: all 0.3s ease; /* P³ynne przejœcie efektu */
+}
+
+    /* Styl przycisku po najechaniu */
+    .admin-panel-button:hover {
+        background-color: #ffc107; /* ¯ó³te t³o */
+        border-color: #ffc107; /* ¯ó³ta obwódka */
+        color: #212529; /* Ciemny tekst */
+    }
+
+/* Styl rozwijanego menu */
+.dropdown-menu-dark {
+    background-color: #343a40; /* Ciemne t³o */
+    color: #f8f9fa; /* Jasny tekst */
+}
+
+    /* Efekt hover dla elementów menu */
+    .dropdown-menu-dark .dropdown-item:hover {
+        background-color: #495057; /* Lekko jaœniejsze t³o */
+        color: #f8f9fa; /* Jasny tekst */
+    }
+
+/* Styl rozwijania menu na hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* Zapobiega przesuwaniu menu w dó³ */
+}
+
+.admin-panel-button {
+    margin-right: 10px; /* Mo¿esz dostosowaæ wartoœæ odstêpu */
+}
