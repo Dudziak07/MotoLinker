@@ -25,7 +25,6 @@ namespace MotoLinker.Models
     public class Announcement : IValidatableObject
     {
         public List<AttributeValue> Attributes { get; set; } = new List<AttributeValue>();
-        public AttributeType SelectedAttributeType { get; set; }
 
         public int AnnouncementId { get; set; } // ID og³oszenia
 

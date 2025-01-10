@@ -126,6 +126,9 @@
   <data name="AdListTitle" xml:space="preserve">
     <value>Lista ogłoszeń</value>
   </data>
+  <data name="AllCategories" xml:space="preserve">
+    <value>Wszystkie kategorie</value>
+  </data>
   <data name="Brand" xml:space="preserve">
     <value>Marka</value>
   </data>

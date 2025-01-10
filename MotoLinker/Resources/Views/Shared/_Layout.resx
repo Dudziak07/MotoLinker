@@ -138,6 +138,12 @@
   <data name="Logout" xml:space="preserve">
     <value>Wyloguj się</value>
   </data>
+  <data name="ManageCategories" xml:space="preserve">
+    <value>Zarządzaj kategoriami</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>Zarządzaj użytkownikami</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Polityka prywatności</value>
   </data>

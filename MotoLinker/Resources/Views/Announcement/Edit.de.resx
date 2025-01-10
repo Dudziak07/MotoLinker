@@ -117,11 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddAttribute" xml:space="preserve">
+    <value>Attribut hinzufügen</value>
+  </data>
+  <data name="AttributeKey" xml:space="preserve">
+    <value>Attributschlüssel</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value> Attribute</value>
+  </data>
+  <data name="AttributeType" xml:space="preserve">
+    <value>Attributtyp</value>
+  </data>
+  <data name="AttributeValue" xml:space="preserve">
+    <value>Attributwert</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value> Boolescher Wert</value>
+  </data>
   <data name="Brand" xml:space="preserve">
     <value>Marke</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value> Abbrechen</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategorien</value>
   </data>
   <data name="CreateAdTitle" xml:space="preserve">
     <value>Anzeige hinzufügen</value>
@@ -135,8 +156,14 @@
   <data name="EditAdTitle" xml:space="preserve">
     <value>Anzeige bearbeiten</value>
   </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Ganzzahl</value>
+  </data>
   <data name="Location" xml:space="preserve">
     <value>Standort</value>
+  </data>
+  <data name="LongText" xml:space="preserve">
+    <value>Langer Text</value>
   </data>
   <data name="Model" xml:space="preserve">
     <value>Modell</value>
@@ -146,6 +173,12 @@
   </data>
   <data name="ProductionYear" xml:space="preserve">
     <value> Produktionsjahr</value>
+  </data>
+  <data name="Real" xml:space="preserve">
+    <value>Reelle Zahl</value>
+  </data>
+  <data name="ShortText" xml:space="preserve">
+    <value> Kurzer Text</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Titel</value>

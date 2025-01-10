@@ -117,11 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddAttribute" xml:space="preserve">
+    <value>Dodaj atrybut</value>
+  </data>
   <data name="AdId" xml:space="preserve">
     <value>Ogłoszenie ID</value>
   </data>
+  <data name="AttributeKey" xml:space="preserve">
+    <value>Klucz atrybutu</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Atrybuty</value>
+  </data>
+  <data name="AttributeType" xml:space="preserve">
+    <value>Typ atrybutu</value>
+  </data>
+  <data name="AttributeValue" xml:space="preserve">
+    <value>Wartość atrybutu</value>
+  </data>
   <data name="BackToList" xml:space="preserve">
     <value>Powrót do listy</value>
+  </data>
+  <data name="Boolean" xml:space="preserve">
+    <value> Wartość logiczna</value>
   </data>
   <data name="Brand" xml:space="preserve">
     <value>Marka</value>
@@ -135,8 +153,14 @@
   <data name="DetailsAdTitle" xml:space="preserve">
     <value> Szczegóły</value>
   </data>
+  <data name="Integer" xml:space="preserve">
+    <value>Liczba całkowita</value>
+  </data>
   <data name="Location" xml:space="preserve">
     <value>Lokalizacja</value>
+  </data>
+  <data name="LongText" xml:space="preserve">
+    <value>Długi tekst</value>
   </data>
   <data name="Model" xml:space="preserve">
     <value>Model</value>
@@ -149,6 +173,12 @@
   </data>
   <data name="ProductionYear" xml:space="preserve">
     <value>Rok produkcji</value>
+  </data>
+  <data name="Real" xml:space="preserve">
+    <value>Liczba rzeczywista</value>
+  </data>
+  <data name="ShortText" xml:space="preserve">
+    <value>Krótki tekst</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Tytuł</value>

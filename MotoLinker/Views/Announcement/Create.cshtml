@@ -70,17 +70,17 @@
             const container = document.getElementById('attribute-container');
             const template = `
                 <div class="form-group attribute-row">
-                    <label>Attribute Key</label>
+                    <label>@Localizer["AttributeKey"]</label>
                     <input type="text" name="attributes[${attributeIndex}].Key" class="form-control" />
-                    <label>Attribute Type</label>
+                    <label>@Localizer["AttributeType"]</label>
                     <select name="attributes[${attributeIndex}].Type" class="form-control attribute-type" data-index="${attributeIndex}" onchange="updateAttributeValueInput(this)">
-                        <option value="ShortText">ShortText</option>
-                        <option value="LongText">LongText</option>
-                        <option value="Integer">Integer</option>
-                        <option value="Real">Real</option>
-                        <option value="Boolean">Boolean</option>
+                        <option value="ShortText">@Localizer["ShortText"]</option>
+                        <option value="LongText">@Localizer["LongText"]</option>
+                        <option value="Integer">@Localizer["Integer"]</option>
+                        <option value="Real">@Localizer["Real"]</option>
+                        <option value="Boolean">@Localizer["Boolean"]</option>
                     </select>
-                    <label>Attribute Value</label>
+                    <label>@Localizer["AttributeValue"]</label>
                     <div class="attribute-value-container" data-index="${attributeIndex}">
                         <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
                     </div>
