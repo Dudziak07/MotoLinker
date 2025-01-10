@@ -1,2 +1,2 @@
 # MotoLinker
-![Alt text](/images/MotoLinker.jpg)
+![Alt text](MotoLinker/wwwroot/images/MotoLinker.png)
