@@ -84,6 +84,7 @@ public class AnnouncementController : Controller
     // GET: Announcement/Create
     public IActionResult Create()
     {
+        ViewBag.Categories = _categories; // Przekazywanie kategorii do widoku
         ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View();
     }
@@ -95,27 +96,22 @@ public class AnnouncementController : Controller
     {
         if (ModelState.IsValid)
         {
-            // Pobieranie ID u¿ytkownika z sesji
-            var userId = HttpContext.Session.GetString("UserId");
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
+            // Przypisanie wybranych kategorii
+            announcement.Categories = _categories
+                .Where(c => announcement.SelectedCategoryIds.Contains(c.CategoryId))
+                .ToList();
 
-            // Generowanie nowego ID dla og³oszenia
             announcement.AnnouncementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnouncementId) + 1 : 1;
+            var userId = HttpContext.Session.GetString("UserId");
+            if (userId != null) announcement.UserId = int.Parse(userId);
 
-            // Przypisanie ID u¿ytkownika do pola UserId w og³oszeniu
-            announcement.UserId = int.Parse(userId);
-
-            // Dodanie og³oszenia do listy
             _announcements.Add(announcement);
 
             TempData["Message"] = "Og³oszenie zosta³o dodane.";
             return RedirectToAction("List");
         }
 
-        // Jeœli model jest nieprawid³owy
+        ViewBag.Categories = _categories;
         ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(announcement);
     }
@@ -149,6 +145,10 @@ public class AnnouncementController : Controller
             return Forbid();
         }
 
+        announcement.SelectedCategoryIds = announcement.Categories.Select(c => c.CategoryId).ToList();
+
+        ViewBag.Categories = _categories;
+
         // Przekazanie atrybutów do widoku
         ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(announcement);
@@ -176,6 +176,11 @@ public class AnnouncementController : Controller
 
         if (ModelState.IsValid)
         {
+            // Aktualizacja kategorii
+            announcement.Categories = _categories
+                .Where(c => updatedAnnouncement.SelectedCategoryIds.Contains(c.CategoryId))
+                .ToList();
+
             // Aktualizacja w³aœciwoœci og³oszenia
             announcement.Title = updatedAnnouncement.Title;
             announcement.Description = updatedAnnouncement.Description;
@@ -197,6 +202,7 @@ public class AnnouncementController : Controller
             return RedirectToAction(nameof(List));
         }
 
+        ViewBag.Categories = _categories;
         ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(updatedAnnouncement);
     }
