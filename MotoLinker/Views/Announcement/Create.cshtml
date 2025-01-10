@@ -54,19 +54,7 @@
 
     <h3>@Localizer["Attributes"]</h3>
     <div id="attribute-container">
-        <div class="form-group">
-            <label>@Localizer["AttributeKey"]</label>
-            <input type="text" name="attributes[0].Key" class="form-control" />
-            <label>@Localizer["AttributeValue"]</label>
-            <input type="text" name="attributes[0].Value" class="form-control" />
-            <label>@Localizer["AttributeType"]</label>
-            <select name="attributes[0].Type" class="form-control">
-                @foreach (var type in ViewBag.AttributeTypes)
-                {
-                    <option value="@type">@type</option>
-                }
-            </select>
-        </div>
+        <!-- Domyœlnie brak atrybutów -->
     </div>
     <button type="button" id="add-attribute" class="btn btn-secondary">@Localizer["AddAttribute"]</button>
 
@@ -76,25 +64,59 @@
 
 @section Scripts {
     <script>
-        let attributeIndex = 1;
+        let attributeIndex = 0;
+
         document.getElementById('add-attribute').addEventListener('click', () => {
             const container = document.getElementById('attribute-container');
             const template = `
-                <div class="form-group">
-                    <label>Klucz</label>
+                <div class="form-group attribute-row">
+                    <label>Attribute Key</label>
                     <input type="text" name="attributes[${attributeIndex}].Key" class="form-control" />
-                    <label>Wartoœæ</label>
-                    <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
-                    <label>Typ</label>
-                    <select name="attributes[${attributeIndex}].Type" class="form-control">
-                        ${Array.from(document.querySelector('select[name="attributes[0].Type"]').options).map(
-                            option => `<option value="${option.value}">${option.text}</option>`
-                        ).join('')}
+                    <label>Attribute Type</label>
+                    <select name="attributes[${attributeIndex}].Type" class="form-control attribute-type" data-index="${attributeIndex}" onchange="updateAttributeValueInput(this)">
+                        <option value="ShortText">ShortText</option>
+                        <option value="LongText">LongText</option>
+                        <option value="Integer">Integer</option>
+                        <option value="Real">Real</option>
+                        <option value="Boolean">Boolean</option>
                     </select>
+                    <label>Attribute Value</label>
+                    <div class="attribute-value-container" data-index="${attributeIndex}">
+                        <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
+                    </div>
                 </div>
             `;
             container.insertAdjacentHTML('beforeend', template);
             attributeIndex++;
         });
+
+        function updateAttributeValueInput(selectElement) {
+            const index = selectElement.getAttribute('data-index');
+            const valueContainer = document.querySelector(`.attribute-value-container[data-index="${index}"]`);
+            const type = selectElement.value;
+
+            let inputElement;
+
+            switch (type) {
+                case 'ShortText':
+                    inputElement = `<input type="text" name="attributes[${index}].Value" class="form-control" />`;
+                    break;
+                case 'LongText':
+                    inputElement = `<textarea name="attributes[${index}].Value" class="form-control"></textarea>`;
+                    break;
+                case 'Integer':
+                    inputElement = `<input type="number" name="attributes[${index}].Value" class="form-control" step="1" />`;
+                    break;
+                case 'Real':
+                    inputElement = `<input type="number" name="attributes[${index}].Value" class="form-control" step="0.01" />`;
+                    break;
+                case 'Boolean':
+                    inputElement = `<input type="checkbox" name="attributes[${index}].Value" class="form-check-input" value="true" />`;
+                    break;
+            }
+
+            valueContainer.innerHTML = inputElement;
+        }
+
     </script>
 }

@@ -101,6 +101,12 @@ public class AnnouncementController : Controller
                 .Where(c => announcement.SelectedCategoryIds.Contains(c.CategoryId))
                 .ToList();
 
+            // Jeœli lista atrybutów jest pusta, ustaw pust¹ listê
+            if (announcement.Attributes == null)
+            {
+                announcement.Attributes = new List<AttributeValue>();
+            }
+
             announcement.AnnouncementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnouncementId) + 1 : 1;
             var userId = HttpContext.Session.GetString("UserId");
             if (userId != null) announcement.UserId = int.Parse(userId);
@@ -196,7 +202,11 @@ public class AnnouncementController : Controller
                 updatedAnnouncement.Attributes = new List<AttributeValue>();
             }
 
-            announcement.Attributes = updatedAnnouncement.Attributes;
+            // Aktualizacja atrybutów
+            if (updatedAnnouncement.Attributes != null)
+            {
+                announcement.Attributes = updatedAnnouncement.Attributes;
+            }
 
             TempData["Message"] = "Og³oszenie zosta³o zaktualizowane.";
             return RedirectToAction(nameof(List));
