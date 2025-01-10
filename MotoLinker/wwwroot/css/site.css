@@ -83,3 +83,13 @@ a img, a.btn {
 .admin-panel-button {
     margin-right: 10px; /* Mo¿esz dostosowaæ wartoœæ odstêpu */
 }
+
+.modal {
+    z-index: 1050; /* Wysoki priorytet tylko dla modala */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
