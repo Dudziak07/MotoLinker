@@ -45,6 +45,35 @@
         <input asp-for="ProductionYear" class="form-control" />
         <span asp-validation-for="ProductionYear" class="text-danger"></span>
     </div>
+
+    <h3>@Localizer["Attributes"]</h3>
+    <div id="attributes-container">
+        @foreach (var attr in Model.Attributes)
+        {
+            <div class="form-group">
+                <label>@attr.Key</label>
+                @switch (attr.Type)
+                {
+                    case AttributeType.ShortText:
+                        <input type="text" name="Attributes[@Model.Attributes.IndexOf(attr)].Value" value="@attr.Value" class="form-control" />
+                        break;
+                    case AttributeType.LongText:
+                        <textarea name="Attributes[@Model.Attributes.IndexOf(attr)].Value" class="form-control">@attr.Value</textarea>
+                        break;
+                    case AttributeType.Integer:
+                        <input type="number" name="Attributes[@Model.Attributes.IndexOf(attr)].Value" value="@attr.Value" class="form-control" />
+                        break;
+                    case AttributeType.Real:
+                        <input type="number" step="0.01" name="Attributes[@Model.Attributes.IndexOf(attr)].Value" value="@attr.Value" class="form-control" />
+                        break;
+                    case AttributeType.Boolean:
+                        <input type="checkbox" name="Attributes[@Model.Attributes.IndexOf(attr)].Value" value="true" @(attr.Value == "true" ? "checked" : "") />
+                        break;
+                }
+            </div>
+        }
+    </div>
+
     <input type="hidden" asp-for="AnnouncementId" />
     <button type="submit" class="btn btn-primary">@Localizer["EditAdButton"]</button>
     <a asp-action="List" class="btn btn-secondary">@Localizer["Cancel"]</a>
@@ -54,4 +83,27 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        let attributeIndex = 1;
+        document.getElementById('add-attribute').addEventListener('click', () => {
+            const container = document.getElementById('attribute-container');
+            const template = `
+                <div class="form-group">
+                    <label>Klucz</label>
+                    <input type="text" name="attributes[${attributeIndex}].Key" class="form-control" />
+                    <label>Wartość</label>
+                    <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
+                    <label>Typ</label>
+                    <select name="attributes[${attributeIndex}].Type" class="form-control">
+                        ${Array.from(document.querySelector('select[name="attributes[0].Type"]').options).map(
+                            option => `<option value="${option.value}">${option.text}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', template);
+            attributeIndex++;
+        });
+    </script>
 }

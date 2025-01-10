@@ -5,8 +5,26 @@ using MotoLinker.Models;
 
 namespace MotoLinker.Models
 {
+    public class AttributeValue
+    {
+        public int Id { get; set; } // ID wartoœci atrybutu
+        public string Key { get; set; } // Klucz atrybutu (np. "Mileage", "FuelType")
+        public string Value { get; set; } // Wartoœæ atrybutu w formie tekstowej
+        public AttributeType Type { get; set; } // Typ atrybutu
+    }
+
+    public enum AttributeType
+    {
+        ShortText,
+        LongText,
+        Integer,
+        Real,
+        Boolean
+    }
+
     public class Announcement : IValidatableObject
     {
+        public List<AttributeValue> Attributes { get; set; } = new List<AttributeValue>();
         public int AnnouncementId { get; set; } // ID og³oszenia
 
         [Required]

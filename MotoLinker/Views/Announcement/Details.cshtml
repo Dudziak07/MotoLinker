@@ -15,4 +15,25 @@
 <p><strong>@Localizer["AdId"]:</strong> @Model.AnnouncementId</p>
 <p><strong>@Localizer["OwnerId"]:</strong> @Model.UserId</p>
 
+<h3>@Localizer["Attributes"]</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Localizer["AttributeKey"]</th>
+            <th>@Localizer["AttributeValue"]</th>
+            <th>@Localizer["AttributeType"]</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attr in Model.Attributes)
+        {
+            <tr>
+                <td>@attr.Key</td>
+                <td>@attr.Value</td>
+                <td>@attr.Type</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 <a asp-action="List" class="btn btn-secondary">@Localizer["BackToList"]</a>

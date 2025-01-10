@@ -84,6 +84,7 @@ public class AnnouncementController : Controller
     // GET: Announcement/Create
     public IActionResult Create()
     {
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View();
     }
 
@@ -114,6 +115,8 @@ public class AnnouncementController : Controller
             return RedirectToAction("List");
         }
 
+        // Jeœli model jest nieprawid³owy
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(announcement);
     }
 
@@ -143,13 +146,14 @@ public class AnnouncementController : Controller
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
-            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
+            return Forbid();
         }
 
+        // Przekazanie atrybutów do widoku
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(announcement);
     }
 
-    // POST: Announcement/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, Announcement updatedAnnouncement)
@@ -162,7 +166,7 @@ public class AnnouncementController : Controller
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
-            return Forbid(); // Zablokuj dostêp, jeœli u¿ytkownik nie ma uprawnieñ
+            return Forbid();
         }
 
         if (id != updatedAnnouncement.AnnouncementId)
@@ -181,9 +185,19 @@ public class AnnouncementController : Controller
             announcement.Model = updatedAnnouncement.Model;
             announcement.ProductionYear = updatedAnnouncement.ProductionYear;
 
+            // Obs³uga atrybutów
+            if (updatedAnnouncement.Attributes == null)
+            {
+                updatedAnnouncement.Attributes = new List<AttributeValue>();
+            }
+
+            announcement.Attributes = updatedAnnouncement.Attributes;
+
+            TempData["Message"] = "Og³oszenie zosta³o zaktualizowane.";
             return RedirectToAction(nameof(List));
         }
 
+        ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(updatedAnnouncement);
     }
 

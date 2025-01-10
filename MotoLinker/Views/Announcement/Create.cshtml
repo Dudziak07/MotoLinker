@@ -41,6 +41,50 @@
         <input asp-for="ProductionYear" class="form-control" />
         <span asp-validation-for="ProductionYear" class="text-danger"></span>
     </div>
+
+    <h3>@Localizer["Attributes"]</h3>
+    <div id="attribute-container">
+        <div class="form-group">
+            <label>@Localizer["AttributeKey"]</label>
+            <input type="text" name="attributes[0].Key" class="form-control" />
+            <label>@Localizer["AttributeValue"]</label>
+            <input type="text" name="attributes[0].Value" class="form-control" />
+            <label>@Localizer["AttributeType"]</label>
+            <select name="attributes[0].Type" class="form-control">
+                @foreach (var type in ViewBag.AttributeTypes)
+                {
+                    <option value="@type">@type</option>
+                }
+            </select>
+        </div>
+    </div>
+    <button type="button" id="add-attribute" class="btn btn-secondary">@Localizer["AddAttribute"]</button>
+
     <button type="submit" class="btn btn-primary">@Localizer["AddAdButton"]</button>
     <a asp-action="List" class="btn btn-secondary">@Localizer["Cancel"]</a>
 </form>
+
+@section Scripts {
+    <script>
+        let attributeIndex = 1;
+        document.getElementById('add-attribute').addEventListener('click', () => {
+            const container = document.getElementById('attribute-container');
+            const template = `
+                <div class="form-group">
+                    <label>Klucz</label>
+                    <input type="text" name="attributes[${attributeIndex}].Key" class="form-control" />
+                    <label>Wartoœæ</label>
+                    <input type="text" name="attributes[${attributeIndex}].Value" class="form-control" />
+                    <label>Typ</label>
+                    <select name="attributes[${attributeIndex}].Type" class="form-control">
+                        ${Array.from(document.querySelector('select[name="attributes[0].Type"]').options).map(
+                            option => `<option value="${option.value}">${option.text}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', template);
+            attributeIndex++;
+        });
+    </script>
+}
