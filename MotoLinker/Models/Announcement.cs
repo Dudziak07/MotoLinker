@@ -70,6 +70,8 @@ namespace MotoLinker.Models
         public List<Category> Categories { get; set; } = new List<Category>();
 
         public List<int> SelectedCategoryIds { get; set; } = new List<int>(); // ID wybranych kategorii
+
+        public int Views { get; set; } = 0; // Liczba ods³on
     }
 }
 

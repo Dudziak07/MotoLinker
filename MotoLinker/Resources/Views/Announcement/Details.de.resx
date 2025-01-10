@@ -129,6 +129,9 @@
   <data name="Attributes" xml:space="preserve">
     <value> Attribute</value>
   </data>
+  <data name="AttributeType" xml:space="preserve">
+    <value>Attributtyp</value>
+  </data>
   <data name="AttributeValue" xml:space="preserve">
     <value>Attributwert</value>
   </data>
@@ -144,11 +147,23 @@
   <data name="DateAdded" xml:space="preserve">
     <value>Hinzugefügt am</value>
   </data>
+  <data name="DeleteAdButton" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="DeleteConfirm" xml:space="preserve">
+    <value>Möchten Sie diese Anzeige wirklich löschen?</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
   <data name="DetailsAdTitle" xml:space="preserve">
     <value>Einzelheiten</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="EditAdButton" xml:space="preserve">
+    <value>Änderungen speichern</value>
   </data>
   <data name="Integer" xml:space="preserve">
     <value>Ganzzahl</value>
@@ -179,5 +194,8 @@
   </data>
   <data name="Title" xml:space="preserve">
     <value>Titel</value>
+  </data>
+  <data name="Viewed" xml:space="preserve">
+    <value>Angesehen:</value>
   </data>
 </root>

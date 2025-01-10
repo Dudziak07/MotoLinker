@@ -3,6 +3,8 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 <h1>@Model.Title</h1>
 <p><strong>@Localizer["Description"]:</strong> @Model.Description</p>
 <p><strong>@Localizer["Price"]:</strong> @Model.Price PLN</p>
@@ -37,3 +39,37 @@
 </table>
 
 <a asp-action="List" class="btn btn-secondary">@Localizer["BackToList"]</a>
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("UserId") != null &&
+    (HttpContextAccessor.HttpContext.Session.GetString("UserId") == Model.UserId.ToString() ||
+     HttpContextAccessor.HttpContext.Session.GetString("IsAdmin") == "True"))
+{
+    <a asp-action="Edit" asp-route-id="@Model.AnnouncementId" class="btn btn-warning">@Localizer["Edit"]</a>
+    <form asp-action="Delete" asp-route-id="@Model.AnnouncementId" method="post" style="display:inline;" onsubmit="return confirm(@Localizer["DeleteConfirm"]);">
+        <button type="submit" class="btn btn-danger">@Localizer["DeleteAdButton"]</button>
+    </form>
+}
+
+<span style="font-size: small; color: gray;"><br />@Localizer["Viewed"] @Model.Views</span>
+
+
+<!-- Modal Potwierdzenia Usunięcia -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">@Localizer["DeleteConfirm"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @Localizer["DeleteConfirm"]
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                <form asp-action="Delete" asp-route-id="@Model.AnnouncementId" method="post">
+                    <button type="submit" class="btn btn-danger">@Localizer["DeleteAdButton"]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

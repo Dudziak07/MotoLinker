@@ -133,6 +133,9 @@ public class AnnouncementController : Controller
             return NotFound();
         }
 
+        // Zwiêkszenie licznika ods³on
+        announcement.Views++;
+
         // Przeka¿ og³oszenie do widoku
         return View(announcement);
     }
