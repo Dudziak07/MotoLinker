@@ -18,12 +18,12 @@ public class AnnouncementController : Controller
     public AnnouncementController(ApplicationDbContext context)
     {
         _context = context;
-        _announcements = _context.Announcements.Include(a => a.Categories).ToList();
+        //_announcements = _context.Announcements.Include(a => a.Categories).ToList();
         _categories = _context.Categories.ToList();
     }
 
     // Statyczna lista og³oszeñ (na razie bez bazy danych)
-    private static List<Announcement> _announcements = new List<Announcement>();
+    //private static List<Announcement> _announcements = new List<Announcement>();
     //{
     //    new Announcement
     //    {
@@ -78,16 +78,16 @@ public class AnnouncementController : Controller
     //        Categories = new List<MotoLinker.Models.CategoryOld> { _categories[0], _categories[1], _categories[2] }
     //    }
     //};
-    public static List<Announcement> GetAnnouncements()
-    {
-        return _announcements;
-    }
+    //public static List<Announcement> GetAnnouncements()
+    //{
+    //    return _context.Announcements.Include(a => a.Categories).ToList();
+    //}
 
     // Wyœwietlenie listy og³oszeñ
     public IActionResult List()
     {
         ViewBag.Categories = _context.Categories.ToList(); // Przypisanie listy kategorii
-        return View(_announcements);
+        return View(_context.Announcements.Include(a => a.Categories).ToList());
     }
 
     // GET: Announcement/Create
@@ -116,7 +116,7 @@ public class AnnouncementController : Controller
                 announcement.Attributes = new List<AttributeValue>();
             }
 
-            announcement.AnnouncementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnouncementId) + 1 : 1;
+            //announcement.AnnouncementId = _announcements.Count > 0 ? _announcements.Max(a => a.AnnouncementId) + 1 : 1;
             var userId = HttpContext.Session.GetString("UserId");
             if (userId != null) announcement.UserId = int.Parse(userId);
 
@@ -135,7 +135,7 @@ public class AnnouncementController : Controller
     public IActionResult Details(int id)
     {
         // ZnajdŸ og³oszenie na podstawie ID
-        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
+        var announcement = _context.Announcements.Include(a => a.Categories).FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null)
         {
@@ -157,7 +157,7 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
+        var announcement = _context.Announcements.Include(a => a.Categories).FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
@@ -181,7 +181,7 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
+        var announcement = _context.Announcements.Include(a => a.Categories).FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
@@ -221,10 +221,13 @@ public class AnnouncementController : Controller
                 announcement.Attributes = updatedAnnouncement.Attributes;
             }
 
+            _context.Announcements.Update(announcement);
+            _context.SaveChanges();
+
             TempData["Message"] = "Og³oszenie zosta³o zaktualizowane.";
             return RedirectToAction(nameof(List));
         }
-
+       
         ViewBag.Categories = _categories;
         ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View(updatedAnnouncement);
@@ -239,7 +242,7 @@ public class AnnouncementController : Controller
         if (userId == null) return RedirectToAction("Login", "Auth");
 
         var isAdmin = HttpContext.Session.GetString("IsAdmin") == "True";
-        var announcement = _announcements.FirstOrDefault(a => a.AnnouncementId == id);
+        var announcement = _context.Announcements.Include(a => a.Categories).FirstOrDefault(a => a.AnnouncementId == id);
 
         if (announcement == null || (announcement.UserId != int.Parse(userId) && !isAdmin))
         {
@@ -247,7 +250,9 @@ public class AnnouncementController : Controller
         }
 
         // Usuñ og³oszenie z listy
-        _announcements.Remove(announcement);
+       // _announcements.Remove(announcement);
+        _context.Announcements.Remove(announcement);
+        _context.SaveChanges();
 
         TempData["Message"] = "Og³oszenie zosta³o usuniête.";
         return RedirectToAction("List");
@@ -256,7 +261,7 @@ public class AnnouncementController : Controller
     public IActionResult ByCategory(int id)
     {
         // Filtrowanie og³oszeñ wed³ug kategorii
-        var announcements = _announcements
+        var announcements = _context.Announcements.Include(a => a.Categories)
             .Where(a => a.Categories.Any(c => c.CategoryId == id))
             .ToList();
 
@@ -272,6 +277,6 @@ public class AnnouncementController : Controller
         // Wyœwietlenie wszystkich og³oszeñ
         ViewBag.Categories = _categories; // Przekazanie kategorii do widoku
 
-        return View("List", _announcements);
+        return View("List", _context.Announcements.Include(a => a.Categories).ToList());
     }
 }

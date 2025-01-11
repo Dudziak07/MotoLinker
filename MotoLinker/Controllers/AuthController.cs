@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MotoLinker.Data;
 using MotoLinker.Models;
 using System.Linq;
 
@@ -6,12 +8,22 @@ namespace MotoLinker.Controllers
 {
     public class AuthController : Controller
     {
-        private static List<User> _users = new List<User>
+        private readonly ApplicationDbContext _context;
+
+        public AuthController(ApplicationDbContext context)
         {
-            new User { Username = "admin", Password = "admin", IsAdmin = true },
-            new User { Username = "user1", Password = "user1", IsAdmin = false },
-            new User { Username = "user2", Password = "user2", IsAdmin = false }
-        };
+            _context = context;
+            //_announcements = _context.Announcements.Include(a => a.Categories).ToList();
+            //_categories = _context.Categories.ToList();
+        }
+
+
+        //private static List<User> _users = new List<User>
+        //{
+        //    new User { Username = "admin", Password = "admin", IsAdmin = true },
+        //    new User { Username = "user1", Password = "user1", IsAdmin = false },
+        //    new User { Username = "user2", Password = "user2", IsAdmin = false }
+        //};
 
         public IActionResult Login()
         {
@@ -21,7 +33,7 @@ namespace MotoLinker.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            var user = _users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user != null)
             {
                 HttpContext.Session.SetString("UserId", user.UserId.ToString());
@@ -51,21 +63,22 @@ namespace MotoLinker.Controllers
             if (ModelState.IsValid)
             {
                 // Sprawdź unikalność nazwy użytkownika
-                if (_users.Any(u => u.Username == user.Username))
+                if (_context.Users.Any(u => u.Username == user.Username))
                 {
                     ModelState.AddModelError("Username", "Ten login jest już zajęty.");
                     return View(user);
                 }
 
                 // Sprawdź unikalność emaila
-                if (_users.Any(u => u.Email == user.Email))
+                if (_context.Users.Any(u => u.Email == user.Email))
                 {
                     ModelState.AddModelError("Email", "Ten email jest już zajęty.");
                     return View(user);
                 }
 
                 // Dodaj użytkownika do listy
-                _users.Add(user);
+                _context.Add(user);
+                _context.SaveChanges();
                 TempData["Message"] = "Rejestracja zakończona sukcesem. Możesz się zalogować.";
                 return RedirectToAction("Login");
             }
