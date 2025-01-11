@@ -1,20 +1,23 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using MotoLinker.Models;
 
 namespace MotoLinker.Models
 {
+
+
     public class Category
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CategoryId { get; set; }
         public string Name { get; set; }
 
-        // Relacja nadrzędna (dla drzewa)
-        public int? ParentCategoryId { get; set; }
-        public Category ParentCategory { get; set; }
-
-        // Relacja podrzędna (dla drzewa)
-        public ICollection<Category> ChildCategories { get; set; }
-
-        // Relacja wiele do wielu z ogłoszeniami
         public ICollection<Announcement> Announcements { get; set; }
+
+        // Relacja wiele-do-wielu
+        //  public List<Announcement> Announcements { get; set; } = new List<Announcement>();
     }
 }

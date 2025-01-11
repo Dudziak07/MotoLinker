@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.VisualBasic;
 using MotoLinker.Models;
 
 namespace MotoLinker.Models
@@ -25,9 +27,10 @@ namespace MotoLinker.Models
     public class Announcement : IValidatableObject
     {
         public List<AttributeValue> Attributes { get; set; } = new List<AttributeValue>();
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnnouncementId { get; set; } // ID og³oszenia
-
+        
         [Required]
         [StringLength(100)]
         public string Title { get; set; }
@@ -67,19 +70,15 @@ namespace MotoLinker.Models
             }
         }
 
-        public List<Category> Categories { get; set; } = new List<Category>();
+        // public List<Category> Categories { get; set; } = new List<Category>();
+        public ICollection<Category> Categories { get; set; } = new List<Category>();
 
+        [NotMapped]
         public List<int> SelectedCategoryIds { get; set; } = new List<int>(); // ID wybranych kategorii
 
         public int Views { get; set; } = 0; // Liczba ods³on
+
+       
     }
 }
 
-public class Category
-{
-    public int CategoryId { get; set; }
-    public string Name { get; set; }
-
-    // Relacja wiele-do-wielu
-    public List<Announcement> Announcements { get; set; } = new List<Announcement>();
-}

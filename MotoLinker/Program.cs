@@ -2,8 +2,12 @@ using System.Globalization;
 using System.Resources;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.EntityFrameworkCore;
+using MotoLinker.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -34,6 +38,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

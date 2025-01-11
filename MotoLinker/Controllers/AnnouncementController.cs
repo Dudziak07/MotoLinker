@@ -1,74 +1,83 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MotoLinker.Data;
 using MotoLinker.Models;
 
 namespace MotoLinker.Controllers;
 public class AnnouncementController : Controller
 {
-    private static List<MotoLinker.Models.Category> _categories = new List<MotoLinker.Models.Category>
-    {
-        new MotoLinker.Models.Category { CategoryId = 1, Name = "Samochody osobowe" },
-        new MotoLinker.Models.Category { CategoryId = 2, Name = "Samochody dostawcze" },
-        new MotoLinker.Models.Category { CategoryId = 3, Name = "Motocykle" }
-    };
+    //private static List<MotoLinker.Models.CategoryOld> _categories = new List<MotoLinker.Models.CategoryOld>
+    private static List<MotoLinker.Models.Category> _categories = new List<MotoLinker.Models.Category>();
+    //{
+    //    new MotoLinker.Models.CategoryOld { CategoryId = 1, Name = "Samochody osobowe" },
+    //    new MotoLinker.Models.CategoryOld { CategoryId = 2, Name = "Samochody dostawcze" },
+    //    new MotoLinker.Models.CategoryOld { CategoryId = 3, Name = "Motocykle" }
+    //};
+    private readonly ApplicationDbContext _context;
 
+    public AnnouncementController(ApplicationDbContext context)
+    {
+        _context = context;
+        _announcements = _context.Announcements.Include(a => a.Categories).ToList();
+        _categories = _context.Categories.ToList();
+    }
 
     // Statyczna lista og³oszeñ (na razie bez bazy danych)
-    private static List<Announcement> _announcements = new List<Announcement>
-    {
-        new Announcement
-        {
-            AnnouncementId = 1,
-            Title = "BMW 3 Series super nowoczesny!",
-            Description = "Opis samochodu 1",
-            Price = 50000,
-            Location = "Warszawa",
-            Brand = "BMW",
-            Model = "3 Series",
-            ProductionYear = 2020,
-            UserId = 3, // Przypisz ID u¿ytkownika, który doda³ og³oszenie
-            Categories = new List<MotoLinker.Models.Category> { _categories[0] } // Powi¹zanie z kategori¹ "Samochody osobowe"
-        },
-        new Announcement
-        {
-            AnnouncementId = 2,
-            Title = "Audi A4 dla ka¿dego szpanera!!!",
-            Description = "Opis samochodu 2",
-            Price = 40000,
-            Location = "Kraków",
-            Brand = "Audi",
-            Model = "A4",
-            ProductionYear = 2018,
-            UserId = 2,
-            Categories = new List<MotoLinker.Models.Category> { _categories[0] }
-        },
-        new Announcement
-        {
-            AnnouncementId = 3,
-            Title = "Z³omek dla ubo¿szych",
-            Description = "Opis samochodu 3",
-            Price = 1000,
-            Location = "Raciborz",
-            Brand = "Z³omek",
-            Model = "X1",
-            ProductionYear = 2011,
-            UserId = 1,
-            Categories = new List<MotoLinker.Models.Category> { _categories[0], _categories[1] }
-        },
-        new Announcement
-        {
-            AnnouncementId = 4,
-            Title = "Samochód marzeñ wprost z AUT (Z³omek)",
-            Description = "Opis samochodu 4",
-            Price = 100000,
-            Location = "W³oc³awek",
-            Brand = "Z³omek",
-            Model = "Car2",
-            ProductionYear = 1890,
-            UserId = 4,
-            Categories = new List<MotoLinker.Models.Category> { _categories[0], _categories[1], _categories[2] }
-        }
-    };
+    private static List<Announcement> _announcements = new List<Announcement>();
+    //{
+    //    new Announcement
+    //    {
+    //        AnnouncementId = 1,
+    //        Title = "BMW 3 Series super nowoczesny!",
+    //        Description = "Opis samochodu 1",
+    //        Price = 50000,
+    //        Location = "Warszawa",
+    //        Brand = "BMW",
+    //        Model = "3 Series",
+    //        ProductionYear = 2020,
+    //        UserId = 3, // Przypisz ID u¿ytkownika, który doda³ og³oszenie
+    //        Categories = new List<MotoLinker.Models.CategoryOld> { _categories[0] } // Powi¹zanie z kategori¹ "Samochody osobowe"
+    //    },
+    //    new Announcement
+    //    {
+    //        AnnouncementId = 2,
+    //        Title = "Audi A4 dla ka¿dego szpanera!!!",
+    //        Description = "Opis samochodu 2",
+    //        Price = 40000,
+    //        Location = "Kraków",
+    //        Brand = "Audi",
+    //        Model = "A4",
+    //        ProductionYear = 2018,
+    //        UserId = 2,
+    //        Categories = new List<MotoLinker.Models.CategoryOld> { _categories[0] }
+    //    },
+    //    new Announcement
+    //    {
+    //        AnnouncementId = 3,
+    //        Title = "Z³omek dla ubo¿szych",
+    //        Description = "Opis samochodu 3",
+    //        Price = 1000,
+    //        Location = "Raciborz",
+    //        Brand = "Z³omek",
+    //        Model = "X1",
+    //        ProductionYear = 2011,
+    //        UserId = 1,
+    //        Categories = new List<MotoLinker.Models.CategoryOld> { _categories[0], _categories[1] }
+    //    },
+    //    new Announcement
+    //    {
+    //        AnnouncementId = 4,
+    //        Title = "Samochód marzeñ wprost z AUT (Z³omek)",
+    //        Description = "Opis samochodu 4",
+    //        Price = 100000,
+    //        Location = "W³oc³awek",
+    //        Brand = "Z³omek",
+    //        Model = "Car2",
+    //        ProductionYear = 1890,
+    //        UserId = 4,
+    //        Categories = new List<MotoLinker.Models.CategoryOld> { _categories[0], _categories[1], _categories[2] }
+    //    }
+    //};
     public static List<Announcement> GetAnnouncements()
     {
         return _announcements;
@@ -77,14 +86,14 @@ public class AnnouncementController : Controller
     // Wyœwietlenie listy og³oszeñ
     public IActionResult List()
     {
-        ViewBag.Categories = _categories; // Przypisanie listy kategorii
+        ViewBag.Categories = _context.Categories.ToList(); // Przypisanie listy kategorii
         return View(_announcements);
     }
 
     // GET: Announcement/Create
     public IActionResult Create()
     {
-        ViewBag.Categories = _categories; // Przekazywanie kategorii do widoku
+        ViewBag.Categories = _context.Categories.ToList(); // Przekazywanie kategorii do widoku
         ViewBag.AttributeTypes = Enum.GetValues(typeof(AttributeType)).Cast<AttributeType>();
         return View();
     }
@@ -111,7 +120,8 @@ public class AnnouncementController : Controller
             var userId = HttpContext.Session.GetString("UserId");
             if (userId != null) announcement.UserId = int.Parse(userId);
 
-            _announcements.Add(announcement);
+            _context.Announcements.Add(announcement);
+            _context.SaveChanges();
 
             TempData["Message"] = "Og³oszenie zosta³o dodane.";
             return RedirectToAction("List");
